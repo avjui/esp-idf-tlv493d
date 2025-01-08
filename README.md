@@ -179,7 +179,7 @@ ESP_LOGI("MAIN", "X: %f, Y: %f, Y: %f", conf_magnetometer.dataX, conf_magnetomet
 
 ## Documentation <a name = "documentation"></a>
 
-For more information you can have a look at the [documentation](https://avjui.gihub.io/esp-idf-tlv493d).
+For more information you can have a look at the [documentation](https://avjui.github.io/esp-idf-tlv493d).
 
 ## Todo <a name = "todo"></a>
 
