@@ -35,18 +35,18 @@ The main features are:
   - Manual mode
 
 Here you can find a short example how to use the library in your project.
+
 :file_folder: You can also find an example in [example](https://github.com/avjui/esp-idf-tlv493d/tree/master/example) folder.
+
+:warning: The library was only tested with esp-idf version `5.1` and `5.2`
 
 ### Installation <a name = "installing"></a>
 
 #### ESP-IDF <a name = "esp-idf"></a>
 
-The library contains a [idf_component.yml]{.title-ref} file. So you can
-install it with the esp-idf packagemanager to be accessible in your
-project.
+The library contains a `idf_component.yml` file. So you can install it with the esp-idf packagemanager to be accessible in your project.
 
-To integrate it to your project create a file named
-[idf_component.yml]{.title-ref} and put following lines in it.
+To integrate it to your project create a file named `idf_component.yml` and put following lines in it.
 
 ``` yaml
 dependencies:
@@ -56,11 +56,9 @@ dependencies:
         git: https://github.com/avjui/esp-idf-tlv493d.git
 ```
 
-The file was also available in the [example folder main
-directory](./example/base/main/).
+The file was also available in the [example folder main directory](./example/base/main/).
 
-After this installation is complete and you can build your project with
-the esp-idf-tlv493d library.
+After this installation is complete and you can build your project with the esp-idf-tlv493d library.
 
 #### Platformio <a name = "platformio"></a>
 
@@ -73,15 +71,14 @@ lib_deps =
 
 :warning: Because platformio not register the `Kconfig` by him self you have to add `Kconfig`with editing `CMakeLists.txt`, or add the config variables to `platformio.ini`.
 
--   First option is to add following lines to
-    [CMakeLists.txt]{.title-ref} in the root directory.
+-   First option is to add following lines to `CMakeLists.txt` in the root directory.
 
 ``` cmake
 get_filename_component(configName "${CMAKE_BINARY_DIR}" NAME)
 list(APPEND kconfigs "${CMAKE_SOURCE_DIR}/.pio/libdeps/${configName}/esp-idf-tlv493d/Kconfig")
 ```
 
--   Second option is to add the config to [platformio.ini]{.title-ref}.
+-   Second option is to add the config to `platformio.ini`.
 
 ``` ini
 [tlv493d]
