@@ -1,0 +1,270 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Quickstart &mdash; ESP-IDF-TLV493D  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=4ae1632d" />
+
+  
+    <link rel="canonical" href="https://avjui.github.io/esp-idf-tlv493d/files/quickstart.html" />
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="TLV493D Class" href="tlv493d.html" />
+    <link rel="prev" title="Welcome to ESP-IDF-TLV493D’s documentation!" href="../index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            ESP-IDF-TLV493D
+              <img src="../_static/logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../index.html">Welcome to ESP-IDF-TLV493D’s documentation!</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Quickstart</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#installation">Installation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#esp-idf">ESP-IDF</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#platformio">Platformio</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#initialization-and-setup">Initialization and setup</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#constructor-with-default-config">Constructor with default config</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#add-custom-config">Add custom config</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#usage">Usage</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#perform-update-of-values">Perform update of values</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#read-magnetics-values">Read magnetics values</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="tlv493d.html">TLV493D Class</a></li>
+<li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">ESP-IDF-TLV493D</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Quickstart</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/files/quickstart.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="quickstart">
+<h1>Quickstart<a class="headerlink" href="#quickstart" title="Link to this heading"></a></h1>
+<div class="line-block">
+<div class="line">Here you can find a short example how to use the library in your project.</div>
+<div class="line">You can also find an example in <a class="reference external" href="https://github.com/avjui/esp-idf-tlv493d/tree/master/example">example</a> folder.</div>
+</div>
+<section id="installation">
+<h2>Installation<a class="headerlink" href="#installation" title="Link to this heading"></a></h2>
+<section id="esp-idf">
+<h3>ESP-IDF<a class="headerlink" href="#esp-idf" title="Link to this heading"></a></h3>
+<p>The library contains a <cite>idf_component.yml</cite> file. So you can install it with the esp-idf packagemanager to be accessible in your project.</p>
+<p>To integrate it to your project create a file named <cite>idf_component.yml</cite> and put following lines in it.</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">dependencies</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">idf</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;&gt;=5.1&quot;</span>
+
+<span class="w">    </span><span class="nt">tlv493d</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">git</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">https://github.com/avjui/esp-idf-tlv493d.git</span>
+</pre></div>
+</div>
+<p>The file was also available in the [example folder main directory](./example/base/main/).</p>
+<p>After this installation is complete and you can build your project with the esp-idf-tlv493d library.</p>
+</section>
+<section id="platformio">
+<h3>Platformio<a class="headerlink" href="#platformio" title="Link to this heading"></a></h3>
+<p>To use this library in platformio you can add <cite>lib_deps</cite> to your configuration file <cite>platformio.ini</cite></p>
+<div class="highlight-ini notranslate"><div class="highlight"><pre><span></span><span class="na">lib_deps</span><span class="w"> </span><span class="o">=</span>
+<span class="w">    </span><span class="na">git+https</span><span class="o">:</span><span class="s">//github.com/avjui/esp-idf-tlv493d</span>
+</pre></div>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Because platformio not register the <cite>Kconfig</cite> by him self you have to add <cite>Kconfig</cite> with editing <cite>CMakeLists.txt</cite>, or add the config variables to <cite>platformio.ini</cite>.</p>
+</div>
+<ul class="simple">
+<li><p>First option is to add following lines to <cite>CMakeLists.txt</cite> in the root directory.</p></li>
+</ul>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nb">get_filename_component</span><span class="p">(</span><span class="s">configName</span><span class="w"> </span><span class="s2">&quot;${CMAKE_BINARY_DIR}&quot;</span><span class="w"> </span><span class="s">NAME</span><span class="p">)</span>
+<span class="nb">list</span><span class="p">(</span><span class="s">APPEND</span><span class="w"> </span><span class="s">kconfigs</span><span class="w"> </span><span class="s2">&quot;${CMAKE_SOURCE_DIR}/.pio/libdeps/${configName}/esp-idf-tlv493d/Kconfig&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Second option is to add the config to <cite>platformio.ini</cite>.</p></li>
+</ul>
+<div class="highlight-ini notranslate"><div class="highlight"><pre><span></span><span class="k">[tlv493d]</span>
+<span class="c1">; Build flags for tlv493d library</span>
+<span class="na">build_flags</span><span class="o">=</span>
+<span class="w">        </span><span class="na">-D CONFIG_TLV493D_PIN_SDA</span><span class="o">=</span><span class="s">18</span><span class="w">     </span><span class="c1">; i2c sda pin</span>
+<span class="w">        </span><span class="na">-D CONFIG_TLV493D_PIN_SCL</span><span class="o">=</span><span class="s">19</span><span class="w">     </span><span class="c1">; i2c scl pin</span>
+<span class="w">        </span><span class="na">-D CONFIG_TLV493D_TEMP_ENABLE</span><span class="o">=</span><span class="s">1</span><span class="w">  </span><span class="c1">; enable temp read out</span>
+<span class="w">        </span><span class="na">-D CONFIG_TLV493D_INT_ENABLE</span><span class="o">=</span><span class="s">1</span><span class="w">   </span><span class="c1">; interrupt enabled</span>
+
+<span class="k">[env:...]</span>
+<span class="na">....</span>
+
+<span class="na">build_flags</span><span class="w"> </span><span class="o">=</span>
+<span class="w">    </span><span class="na">${tlv493d.build_flags}</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="initialization-and-setup">
+<h2>Initialization and setup<a class="headerlink" href="#initialization-and-setup" title="Link to this heading"></a></h2>
+<p>At first we must include the header files</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;tlv493d.h&gt;</span>
+</pre></div>
+</div>
+<section id="constructor-with-default-config">
+<h3>Constructor with default config<a class="headerlink" href="#constructor-with-default-config" title="Link to this heading"></a></h3>
+<div class="line-block">
+<div class="line">After that we can create a Object with the standard config.</div>
+<div class="line">This means the configuration made by <code class="code docutils literal notranslate"><span class="pre">menuconfig</span></code> well be used.</div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>There you can find a <code class="code docutils literal notranslate"><span class="pre">TLV493D</span> <span class="pre">Configuration</span></code> section.</p>
+</div>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cm">/* Init with default config</span>
+<span class="cm">*  or config make with &#39;menuconfig&#39;</span>
+<span class="cm">*/</span>
+<span class="n">TLV493D</span><span class="w"> </span><span class="n">magnetometer</span><span class="p">;</span>
+<span class="n">tlv493d_conf_t</span><span class="w"> </span><span class="n">conf_magnetometer</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">DEFAULT_TLV493D_CONFIG</span><span class="p">();</span>
+</pre></div>
+</div>
+</section>
+<section id="add-custom-config">
+<h3>Add custom config<a class="headerlink" href="#add-custom-config" title="Link to this heading"></a></h3>
+<div class="line-block">
+<div class="line">If you want more control over the configuration you can use the overloaded constructor.</div>
+<div class="line">There you can use the <code class="code docutils literal notranslate"><span class="pre">tlv493d_conf_t</span></code> struct.</div>
+</div>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cm">/* Create custom config */</span>
+<span class="n">conf_magnetometer</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="p">.</span><span class="n">tlv493d_conf</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="p">.</span><span class="n">pin_sda</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">50</span><span class="p">,</span><span class="w">         </span><span class="cm">/* custom pin number for sda */</span>
+<span class="w">            </span><span class="p">.</span><span class="n">pin_scl</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">51</span><span class="p">,</span><span class="w">         </span><span class="cm">/* custom pin number for scl */</span>
+<span class="w">            </span><span class="p">.</span><span class="n">mode</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">FASTMODE</span><span class="p">,</span><span class="w">      </span><span class="cm">/* change mode */</span>
+<span class="w">            </span><span class="p">.</span><span class="n">use_temp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">true</span><span class="p">,</span><span class="w">      </span><span class="cm">/* enable temperature read out */</span>
+<span class="w">            </span><span class="p">.</span><span class="n">intr_enable</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">false</span><span class="p">,</span><span class="w">  </span><span class="cm">/* disable interrupt */</span>
+<span class="w">            </span><span class="p">},</span>
+<span class="w">        </span><span class="p">};</span>
+
+<span class="cm">/* Init with custom config */</span>
+<span class="n">magnetometer</span><span class="p">.</span><span class="n">init</span><span class="p">(</span><span class="o">&amp;</span><span class="n">conf_magnetometer</span><span class="p">);</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="usage">
+<h2>Usage<a class="headerlink" href="#usage" title="Link to this heading"></a></h2>
+<section id="perform-update-of-values">
+<h3>Perform update of values<a class="headerlink" href="#perform-update-of-values" title="Link to this heading"></a></h3>
+<p>Here we have two options to update the <code class="code docutils literal notranslate"><span class="pre">conf_magnetometer</span></code> values.</p>
+<p>One option can be to start the background task.</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cm">/* Start background task to periodically read out value from tlv493d modul */</span>
+<span class="n">magnetometer</span><span class="p">.</span><span class="n">startBackgroundRead</span><span class="p">();</span>
+</pre></div>
+</div>
+<p>The second option is to perform a manual update of the date.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This function blocks until it get data or 10 retries fails.</p>
+</div>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cm">/* Read out data manual. Note this is a blocking function */</span>
+<span class="n">esp_err_t</span><span class="w"> </span><span class="n">err</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">magnetometer</span><span class="p">.</span><span class="n">update</span><span class="p">();</span>
+<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">err</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">ESP_OK</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="n">ESP_LOGI</span><span class="p">(</span><span class="s">&quot;MAIN&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Read out new data failed&quot;</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="read-magnetics-values">
+<h3>Read magnetics values<a class="headerlink" href="#read-magnetics-values" title="Link to this heading"></a></h3>
+<p>To read the load you can use the variables from struct <code class="code docutils literal notranslate"><span class="pre">conf_magnetometer</span></code>. If you have started
+the background task you can read the value, without doing anything else.</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cm">/* Read value and print */</span>
+<span class="n">ESP_LOGI</span><span class="p">(</span><span class="s">&quot;MAIN&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;X: %f, Y: %f, Y: %f&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">conf_magnetometer</span><span class="p">.</span><span class="n">dataX</span><span class="p">,</span><span class="w"> </span><span class="n">conf_magnetometer</span><span class="p">.</span><span class="n">dataY</span><span class="p">,</span><span class="w"> </span><span class="n">conf_magnetometer</span><span class="p">.</span><span class="n">dataY</span><span class="p">);</span>
+</pre></div>
+</div>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../index.html" class="btn btn-neutral float-left" title="Welcome to ESP-IDF-TLV493D’s documentation!" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="tlv493d.html" class="btn btn-neutral float-right" title="TLV493D Class" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Juen Rene.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

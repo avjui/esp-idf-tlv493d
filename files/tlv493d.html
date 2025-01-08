@@ -1,0 +1,743 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TLV493D Class &mdash; ESP-IDF-TLV493D  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=4ae1632d" />
+
+  
+    <link rel="canonical" href="https://avjui.github.io/esp-idf-tlv493d/files/tlv493d.html" />
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="License" href="license.html" />
+    <link rel="prev" title="Quickstart" href="quickstart.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            ESP-IDF-TLV493D
+              <img src="../_static/logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../index.html">Welcome to ESP-IDF-TLV493D’s documentation!</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quickstart</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">TLV493D Class</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#tlv493d-public-functions">TLV493D public functions</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#_CPPv4N7TLV493D7TLV493DEv"><code class="docutils literal notranslate"><span class="pre">TLV493D::TLV493D()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#_CPPv4N7TLV493D4initEP14tlv493d_conf_t"><code class="docutils literal notranslate"><span class="pre">TLV493D::init()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#_CPPv4N7TLV493D19startBackgroundReadEv"><code class="docutils literal notranslate"><span class="pre">TLV493D::startBackgroundRead()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#_CPPv4N7TLV493D4stopEv"><code class="docutils literal notranslate"><span class="pre">TLV493D::stop()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#_CPPv4N7TLV493D15setGetInterruptEb"><code class="docutils literal notranslate"><span class="pre">TLV493D::setGetInterrupt()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#_CPPv4N7TLV493D17setGetTemperatureEb"><code class="docutils literal notranslate"><span class="pre">TLV493D::setGetTemperature()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#_CPPv4N7TLV493D5sleepEb"><code class="docutils literal notranslate"><span class="pre">TLV493D::sleep()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#_CPPv4N7TLV493D7setModeE14tlv493d_mode_t"><code class="docutils literal notranslate"><span class="pre">TLV493D::setMode()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#_CPPv4N7TLV493D6updateEv"><code class="docutils literal notranslate"><span class="pre">TLV493D::update()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#_CPPv4N7TLV493D6wakeupEv"><code class="docutils literal notranslate"><span class="pre">TLV493D::wakeup()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#tlv493d-private-functions">TLV493D private functions</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#_CPPv4N7TLV493D8init_busEP17tlv493d_io_conf_t"><code class="docutils literal notranslate"><span class="pre">TLV493D::init_bus()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#_CPPv4N7TLV493D8init_tlvEP17tlv493d_io_conf_t"><code class="docutils literal notranslate"><span class="pre">TLV493D::init_tlv()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#_CPPv4N7TLV493D5resetEv"><code class="docutils literal notranslate"><span class="pre">TLV493D::reset()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#_CPPv4N7TLV493D11writeConfigEP17tlv493d_io_conf_t"><code class="docutils literal notranslate"><span class="pre">TLV493D::writeConfig()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#_CPPv4N7TLV493D13writeRegistryEP7uint8_t"><code class="docutils literal notranslate"><span class="pre">TLV493D::writeRegistry()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#_CPPv4N7TLV493D12readRegistryEP7uint8_t"><code class="docutils literal notranslate"><span class="pre">TLV493D::readRegistry()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#_CPPv4N7TLV493D14calculateValueE7uint8_t7uint8_tb"><code class="docutils literal notranslate"><span class="pre">TLV493D::calculateValue()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#_CPPv4N7TLV493D19calculateTemperaturE7uint8_t7uint8_t"><code class="docutils literal notranslate"><span class="pre">TLV493D::calculateTemperatur()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#_CPPv4N7TLV493D3errE"><code class="docutils literal notranslate"><span class="pre">TLV493D::err</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#_CPPv4N7TLV493D7_configE"><code class="docutils literal notranslate"><span class="pre">TLV493D::_config</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#_CPPv4N7TLV493D7io_confE"><code class="docutils literal notranslate"><span class="pre">TLV493D::io_conf</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#_CPPv4N7TLV493D8i2c_confE"><code class="docutils literal notranslate"><span class="pre">TLV493D::i2c_conf</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#_CPPv4N7TLV493D8r_bufferE"><code class="docutils literal notranslate"><span class="pre">TLV493D::r_buffer</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#_CPPv4N7TLV493D8w_bufferE"><code class="docutils literal notranslate"><span class="pre">TLV493D::w_buffer</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#_CPPv4N7TLV493D13readoutPeriodE"><code class="docutils literal notranslate"><span class="pre">TLV493D::readoutPeriod</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#_CPPv4N7TLV493D14backgroundTaskEPv"><code class="docutils literal notranslate"><span class="pre">TLV493D::backgroundTask()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#tlv493d-power-modes">TLV493D power modes</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#_CPPv414tlv493d_mode_t"><code class="docutils literal notranslate"><span class="pre">tlv493d_mode_t</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#_CPPv4N14tlv493d_mode_t13POWERDOWNMODEE"><code class="docutils literal notranslate"><span class="pre">tlv493d_mode_t::POWERDOWNMODE</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#_CPPv4N14tlv493d_mode_t8FASTMODEE"><code class="docutils literal notranslate"><span class="pre">tlv493d_mode_t::FASTMODE</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#_CPPv4N14tlv493d_mode_t12LOWPOWERMODEE"><code class="docutils literal notranslate"><span class="pre">tlv493d_mode_t::LOWPOWERMODE</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#_CPPv4N14tlv493d_mode_t17ULTRALOWPOWERMODEE"><code class="docutils literal notranslate"><span class="pre">tlv493d_mode_t::ULTRALOWPOWERMODE</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#_CPPv4N14tlv493d_mode_t20MASTERCONTROLLERMODEE"><code class="docutils literal notranslate"><span class="pre">tlv493d_mode_t::MASTERCONTROLLERMODE</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#_CPPv4N14tlv493d_mode_t24MASTERCONTROLLERMODE_ULPE"><code class="docutils literal notranslate"><span class="pre">tlv493d_mode_t::MASTERCONTROLLERMODE_ULP</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#tlv493d-bus-and-tlv493d-config-struct">TLV493D bus and tlv493d config struct</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#_CPPv417tlv493d_io_conf_t"><code class="docutils literal notranslate"><span class="pre">tlv493d_io_conf_t</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#_CPPv4N17tlv493d_io_conf_t11tlv_addressE"><code class="docutils literal notranslate"><span class="pre">tlv493d_io_conf_t::tlv_address</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#_CPPv4N17tlv493d_io_conf_t7pin_sdaE"><code class="docutils literal notranslate"><span class="pre">tlv493d_io_conf_t::pin_sda</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#_CPPv4N17tlv493d_io_conf_t7pin_sclE"><code class="docutils literal notranslate"><span class="pre">tlv493d_io_conf_t::pin_scl</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#_CPPv4N17tlv493d_io_conf_t4modeE"><code class="docutils literal notranslate"><span class="pre">tlv493d_io_conf_t::mode</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#_CPPv4N17tlv493d_io_conf_t8use_tempE"><code class="docutils literal notranslate"><span class="pre">tlv493d_io_conf_t::use_temp</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#_CPPv4N17tlv493d_io_conf_t10int_enableE"><code class="docutils literal notranslate"><span class="pre">tlv493d_io_conf_t::int_enable</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#tlv493d-config-and-data-struct">TLV493D config and data struct</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#_CPPv414tlv493d_conf_t"><code class="docutils literal notranslate"><span class="pre">tlv493d_conf_t</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#_CPPv4N14tlv493d_conf_t5dataXE"><code class="docutils literal notranslate"><span class="pre">tlv493d_conf_t::dataX</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#_CPPv4N14tlv493d_conf_t5dataYE"><code class="docutils literal notranslate"><span class="pre">tlv493d_conf_t::dataY</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#_CPPv4N14tlv493d_conf_t5dataZE"><code class="docutils literal notranslate"><span class="pre">tlv493d_conf_t::dataZ</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#_CPPv4N14tlv493d_conf_t11temperatureE"><code class="docutils literal notranslate"><span class="pre">tlv493d_conf_t::temperature</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#_CPPv4N14tlv493d_conf_t6amountE"><code class="docutils literal notranslate"><span class="pre">tlv493d_conf_t::amount</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#_CPPv4N14tlv493d_conf_t7azimuthE"><code class="docutils literal notranslate"><span class="pre">tlv493d_conf_t::azimuth</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#_CPPv4N14tlv493d_conf_t5polarE"><code class="docutils literal notranslate"><span class="pre">tlv493d_conf_t::polar</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#_CPPv4N14tlv493d_conf_t12tlv493d_confE"><code class="docutils literal notranslate"><span class="pre">tlv493d_conf_t::tlv493d_conf</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#tlv493d-read-out-register">TLV493D read out register</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#tlv493d-write-register">TLV493D write register</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#tlv493d-correction-values">TLV493D correction values</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">ESP-IDF-TLV493D</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">TLV493D Class</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/files/tlv493d.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="tlv493d-class">
+<span id="tlv493d"></span><h1>TLV493D Class<a class="headerlink" href="#tlv493d-class" title="Link to this heading"></a></h1>
+<p>Here we can find the documentation for the ESP-IDF-TLV493D library</p>
+<section id="tlv493d-public-functions">
+<h2>TLV493D public functions<a class="headerlink" href="#tlv493d-public-functions" title="Link to this heading"></a></h2>
+<div class="breathe-sectiondef docutils container">
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N7TLV493D7TLV493DEv">
+<span id="_CPPv3N7TLV493D7TLV493DEv"></span><span id="_CPPv2N7TLV493D7TLV493DEv"></span><span id="TLV493D::TLV493D"></span><span class="target" id="classTLV493D_1aa2b36751ddc81c2cb42aef67d2ae4920"></span><span class="sig-name descname"><span class="n"><span class="pre">TLV493D</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N7TLV493D7TLV493DEv" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N7TLV493D4initEP14tlv493d_conf_t">
+<span id="_CPPv3N7TLV493D4initEP14tlv493d_conf_t"></span><span id="_CPPv2N7TLV493D4initEP14tlv493d_conf_t"></span><span id="TLV493D::init__tlv493d_conf_tP"></span><span class="target" id="classTLV493D_1a3ea8e9cc93995ed56784f0db4124f650"></span><span class="n"><span class="pre">esp_err_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">init</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv414tlv493d_conf_t" title="tlv493d_conf_t"><span class="n"><span class="pre">tlv493d_conf_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">config</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N7TLV493D4initEP14tlv493d_conf_t" title="Link to this definition"></a><br /></dt>
+<dd><p>Init function with custom config. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>config</strong> – config for tlv493d</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>ESP_OK when success. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N7TLV493D19startBackgroundReadEv">
+<span id="_CPPv3N7TLV493D19startBackgroundReadEv"></span><span id="_CPPv2N7TLV493D19startBackgroundReadEv"></span><span id="TLV493D::startBackgroundRead__void"></span><span class="target" id="classTLV493D_1a2ed22c386c82304344aa07f7a5213570"></span><span class="n"><span class="pre">esp_err_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">startBackgroundRead</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">void</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N7TLV493D19startBackgroundReadEv" title="Link to this definition"></a><br /></dt>
+<dd><p>Function to start background task for read out data. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>ESP_OK when success. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N7TLV493D4stopEv">
+<span id="_CPPv3N7TLV493D4stopEv"></span><span id="_CPPv2N7TLV493D4stopEv"></span><span id="TLV493D::stop__void"></span><span class="target" id="classTLV493D_1a1c246017b05c89453f35e982bbd4cc77"></span><span class="n"><span class="pre">esp_err_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">stop</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">void</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N7TLV493D4stopEv" title="Link to this definition"></a><br /></dt>
+<dd><p>Function to stop the background task. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>ESP_OK when success. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N7TLV493D15setGetInterruptEb">
+<span id="_CPPv3N7TLV493D15setGetInterruptEb"></span><span id="_CPPv2N7TLV493D15setGetInterruptEb"></span><span id="TLV493D::setGetInterrupt__b"></span><span class="target" id="classTLV493D_1a6b1a17be4b7ede3bce7f0cae0b644284"></span><span class="n"><span class="pre">esp_err_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">setGetInterrupt</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">enable</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N7TLV493D15setGetInterruptEb" title="Link to this definition"></a><br /></dt>
+<dd><p>Function to enable or disable interrupts. </p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>It will also update the variable in ‘<a class="reference internal" href="#structtlv493d__conf__t"><span class="std std-ref">tlv493d_conf_t</span></a>’ config. It will also stop the background thread and inital the tlc493d new.</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>enable</strong> – true for enable</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>ESP_OK when success. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N7TLV493D17setGetTemperatureEb">
+<span id="_CPPv3N7TLV493D17setGetTemperatureEb"></span><span id="_CPPv2N7TLV493D17setGetTemperatureEb"></span><span id="TLV493D::setGetTemperature__b"></span><span class="target" id="classTLV493D_1a7e8bb881c697661e8f8f89d39239ae06"></span><span class="n"><span class="pre">esp_err_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">setGetTemperature</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">enable</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N7TLV493D17setGetTemperatureEb" title="Link to this definition"></a><br /></dt>
+<dd><p>Function to enable or disable temperature readout. </p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>It will also update the variable in ‘<a class="reference internal" href="#structtlv493d__conf__t"><span class="std std-ref">tlv493d_conf_t</span></a>’ config It will also stop the background thread and inital the tlc493d new.</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>enable</strong> – true for enable</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>ESP_OK when success. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N7TLV493D5sleepEb">
+<span id="_CPPv3N7TLV493D5sleepEb"></span><span id="_CPPv2N7TLV493D5sleepEb"></span><span id="TLV493D::sleep__b"></span><span class="target" id="classTLV493D_1a6f4063fff9b3506c16cf49f5d98587f4"></span><span class="n"><span class="pre">esp_err_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">sleep</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">deepsleep</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N7TLV493D5sleepEb" title="Link to this definition"></a><br /></dt>
+<dd><p>Function to set the tlv493d to powerdown mode. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>deep</strong> – sleep for future use </p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>ESP_OK when success. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N7TLV493D7setModeE14tlv493d_mode_t">
+<span id="_CPPv3N7TLV493D7setModeE14tlv493d_mode_t"></span><span id="_CPPv2N7TLV493D7setModeE14tlv493d_mode_t"></span><span id="TLV493D::setMode__tlv493d_mode_t"></span><span class="target" id="classTLV493D_1afc54544423ccea0fa13d64c3197fe3ab"></span><span class="n"><span class="pre">esp_err_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">setMode</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv414tlv493d_mode_t" title="tlv493d_mode_t"><span class="n"><span class="pre">tlv493d_mode_t</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">mode</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N7TLV493D7setModeE14tlv493d_mode_t" title="Link to this definition"></a><br /></dt>
+<dd><p>Set the mode of tlv943d. Available modes can be found in ‘tlv943d_mode_t’ enum. </p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>TODO: Save current mode in rtc memory to keep it for deep sleep.</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>mode</strong> – </p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>ESP_OK when success. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N7TLV493D6updateEv">
+<span id="_CPPv3N7TLV493D6updateEv"></span><span id="_CPPv2N7TLV493D6updateEv"></span><span id="TLV493D::update"></span><span class="target" id="classTLV493D_1ae79d273a2f6cdb02d33a00246220f4b5"></span><span class="n"><span class="pre">esp_err_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">update</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N7TLV493D6updateEv" title="Link to this definition"></a><br /></dt>
+<dd><p>Function to read out values from tlv493d. </p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This is a blocking function. It try to read out data. If the tlv493d is not ready or new new data will present, it will imedilaty retry to read out. If it will not get new data after ‘READOUT_MAX_TIMES’ it will return as ESP_FAIL.</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>ESP_OK when success. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N7TLV493D6wakeupEv">
+<span id="_CPPv3N7TLV493D6wakeupEv"></span><span id="_CPPv2N7TLV493D6wakeupEv"></span><span id="TLV493D::wakeup__void"></span><span class="target" id="classTLV493D_1aebce7ac258cdb9e2064d2034c75dc013"></span><span class="n"><span class="pre">esp_err_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">wakeup</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">void</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N7TLV493D6wakeupEv" title="Link to this definition"></a><br /></dt>
+<dd><p>Function to wake up tlv493d after sleep. </p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The tlv493d will be new initialed.</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>ESP_OK when success. </p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+</section>
+<section id="tlv493d-private-functions">
+<h2>TLV493D private functions<a class="headerlink" href="#tlv493d-private-functions" title="Link to this heading"></a></h2>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Only show for complete the documentation</p>
+</div>
+<div class="breathe-sectiondef docutils container">
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N7TLV493D8init_busEP17tlv493d_io_conf_t">
+<span id="_CPPv3N7TLV493D8init_busEP17tlv493d_io_conf_t"></span><span id="_CPPv2N7TLV493D8init_busEP17tlv493d_io_conf_t"></span><span id="TLV493D::init_bus__tlv493d_io_conf_tP"></span><span class="target" id="classTLV493D_1a3c7da3c1b919b63ac0217b89734b214d"></span><span class="n"><span class="pre">esp_err_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">init_bus</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv417tlv493d_io_conf_t" title="tlv493d_io_conf_t"><span class="n"><span class="pre">tlv493d_io_conf_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">config</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N7TLV493D8init_busEP17tlv493d_io_conf_t" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N7TLV493D8init_tlvEP17tlv493d_io_conf_t">
+<span id="_CPPv3N7TLV493D8init_tlvEP17tlv493d_io_conf_t"></span><span id="_CPPv2N7TLV493D8init_tlvEP17tlv493d_io_conf_t"></span><span id="TLV493D::init_tlv__tlv493d_io_conf_tP"></span><span class="target" id="classTLV493D_1ada8169df5a22901d4a3bcf545e90a699"></span><span class="n"><span class="pre">esp_err_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">init_tlv</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv417tlv493d_io_conf_t" title="tlv493d_io_conf_t"><span class="n"><span class="pre">tlv493d_io_conf_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">config</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N7TLV493D8init_tlvEP17tlv493d_io_conf_t" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N7TLV493D5resetEv">
+<span id="_CPPv3N7TLV493D5resetEv"></span><span id="_CPPv2N7TLV493D5resetEv"></span><span id="TLV493D::reset"></span><span class="target" id="classTLV493D_1a8d9c66040b33653465e8c32083edaf53"></span><span class="n"><span class="pre">esp_err_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">reset</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N7TLV493D5resetEv" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N7TLV493D11writeConfigEP17tlv493d_io_conf_t">
+<span id="_CPPv3N7TLV493D11writeConfigEP17tlv493d_io_conf_t"></span><span id="_CPPv2N7TLV493D11writeConfigEP17tlv493d_io_conf_t"></span><span id="TLV493D::writeConfig__tlv493d_io_conf_tP"></span><span class="target" id="classTLV493D_1a4b5555a944f726eb8508e53f12b85489"></span><span class="n"><span class="pre">esp_err_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">writeConfig</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv417tlv493d_io_conf_t" title="tlv493d_io_conf_t"><span class="n"><span class="pre">tlv493d_io_conf_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">config</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N7TLV493D11writeConfigEP17tlv493d_io_conf_t" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N7TLV493D13writeRegistryEP7uint8_t">
+<span id="_CPPv3N7TLV493D13writeRegistryEP7uint8_t"></span><span id="_CPPv2N7TLV493D13writeRegistryEP7uint8_t"></span><span id="TLV493D::writeRegistry__uint8_tP"></span><span class="target" id="classTLV493D_1a4517de07b55e4a6ae2632cfbde5b9cea"></span><span class="n"><span class="pre">esp_err_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">writeRegistry</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">uint8_t</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">data</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N7TLV493D13writeRegistryEP7uint8_t" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N7TLV493D12readRegistryEP7uint8_t">
+<span id="_CPPv3N7TLV493D12readRegistryEP7uint8_t"></span><span id="_CPPv2N7TLV493D12readRegistryEP7uint8_t"></span><span id="TLV493D::readRegistry__uint8_tP"></span><span class="target" id="classTLV493D_1aa59cb3595eee5387234ef5532db64333"></span><span class="n"><span class="pre">esp_err_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">readRegistry</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">uint8_t</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">data</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N7TLV493D12readRegistryEP7uint8_t" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N7TLV493D14calculateValueE7uint8_t7uint8_tb">
+<span id="_CPPv3N7TLV493D14calculateValueE7uint8_t7uint8_tb"></span><span id="_CPPv2N7TLV493D14calculateValueE7uint8_t7uint8_tb"></span><span id="TLV493D::calculateValue__uint8_t.uint8_t.b"></span><span class="target" id="classTLV493D_1acf13b7dd8a1ac14b99a9ba0eef3a4d54"></span><span class="n"><span class="pre">int16_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">calculateValue</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">uint8_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">msb</span></span>, <span class="n"><span class="pre">uint8_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">lsb</span></span>, <span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">use_first_four</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N7TLV493D14calculateValueE7uint8_t7uint8_tb" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N7TLV493D19calculateTemperaturE7uint8_t7uint8_t">
+<span id="_CPPv3N7TLV493D19calculateTemperaturE7uint8_t7uint8_t"></span><span id="_CPPv2N7TLV493D19calculateTemperaturE7uint8_t7uint8_t"></span><span id="TLV493D::calculateTemperatur__uint8_t.uint8_t"></span><span class="target" id="classTLV493D_1af17102c8fc44a3020dd321904931682a"></span><span class="n"><span class="pre">int16_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">calculateTemperatur</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">uint8_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">msb</span></span>, <span class="n"><span class="pre">uint8_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">lsb</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N7TLV493D19calculateTemperaturE7uint8_t7uint8_t" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N7TLV493D3errE">
+<span id="_CPPv3N7TLV493D3errE"></span><span id="_CPPv2N7TLV493D3errE"></span><span id="TLV493D::err__esp_err_t"></span><span class="target" id="classTLV493D_1a7e72bfd2b997c331fb1c0abf92ddf187"></span><span class="n"><span class="pre">esp_err_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">err</span></span></span><a class="headerlink" href="#_CPPv4N7TLV493D3errE" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N7TLV493D7_configE">
+<span id="_CPPv3N7TLV493D7_configE"></span><span id="_CPPv2N7TLV493D7_configE"></span><span id="TLV493D::_config__tlv493d_conf_tP"></span><span class="target" id="classTLV493D_1ac5c498d2f0e08e4971777f8e8e9955a5"></span><a class="reference internal" href="#_CPPv414tlv493d_conf_t" title="tlv493d_conf_t"><span class="n"><span class="pre">tlv493d_conf_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">_config</span></span></span><a class="headerlink" href="#_CPPv4N7TLV493D7_configE" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N7TLV493D7io_confE">
+<span id="_CPPv3N7TLV493D7io_confE"></span><span id="_CPPv2N7TLV493D7io_confE"></span><span id="TLV493D::io_conf__gpio_config_t"></span><span class="target" id="classTLV493D_1ad291f9e89ea18456b67b7adb8aaafb5a"></span><span class="n"><span class="pre">gpio_config_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">io_conf</span></span></span><a class="headerlink" href="#_CPPv4N7TLV493D7io_confE" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N7TLV493D8i2c_confE">
+<span id="_CPPv3N7TLV493D8i2c_confE"></span><span id="_CPPv2N7TLV493D8i2c_confE"></span><span id="TLV493D::i2c_conf__i2c_config_t"></span><span class="target" id="classTLV493D_1a29d49f86a4bb6fe6bb2d2499262f412c"></span><span class="n"><span class="pre">i2c_config_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">i2c_conf</span></span></span><a class="headerlink" href="#_CPPv4N7TLV493D8i2c_confE" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N7TLV493D8r_bufferE">
+<span id="_CPPv3N7TLV493D8r_bufferE"></span><span id="_CPPv2N7TLV493D8r_bufferE"></span><span id="TLV493D::r_buffer__uint8_tA"></span><span class="target" id="classTLV493D_1a6337b281ff4fc05f43f35b4221a493bd"></span><span class="n"><span class="pre">uint8_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">r_buffer</span></span></span><span class="p"><span class="pre">[</span></span><span class="m"><span class="pre">10</span></span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="p"><span class="pre">{</span></span><span class="m"><span class="pre">0</span></span><span class="p"><span class="pre">}</span></span><a class="headerlink" href="#_CPPv4N7TLV493D8r_bufferE" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N7TLV493D8w_bufferE">
+<span id="_CPPv3N7TLV493D8w_bufferE"></span><span id="_CPPv2N7TLV493D8w_bufferE"></span><span id="TLV493D::w_buffer__uint8_tA"></span><span class="target" id="classTLV493D_1a88a9ccd3157b14e1ff91f60b280bbb63"></span><span class="n"><span class="pre">uint8_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">w_buffer</span></span></span><span class="p"><span class="pre">[</span></span><span class="m"><span class="pre">10</span></span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="p"><span class="pre">{</span></span><span class="m"><span class="pre">0</span></span><span class="p"><span class="pre">}</span></span><a class="headerlink" href="#_CPPv4N7TLV493D8w_bufferE" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N7TLV493D13readoutPeriodE">
+<span id="_CPPv3N7TLV493D13readoutPeriodE"></span><span id="_CPPv2N7TLV493D13readoutPeriodE"></span><span id="TLV493D::readoutPeriod__uint8_t"></span><span class="target" id="classTLV493D_1ac49cafa643381d03dc50c3a94045fd6b"></span><span class="n"><span class="pre">uint8_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">readoutPeriod</span></span></span><a class="headerlink" href="#_CPPv4N7TLV493D13readoutPeriodE" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N7TLV493D14backgroundTaskEPv">
+<span id="_CPPv3N7TLV493D14backgroundTaskEPv"></span><span id="_CPPv2N7TLV493D14backgroundTaskEPv"></span><span id="TLV493D::backgroundTask__voidP"></span><span class="target" id="classTLV493D_1a9e6f76085d99fadde6eab6e69442baea"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">backgroundTask</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">pvParameter</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N7TLV493D14backgroundTaskEPv" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp">
+<span class="target" id="classTLV493D_1aacc517ff73cb50e549908ee07773b33d"></span><span class="sig-name descname"><span class="pre">static</span> <span class="pre">void</span> <span class="pre">IRAM_ATTR</span> <span class="pre">interruptHandler</span> <span class="pre">(void</span> <span class="pre">*pvParameter)</span></span></dt>
+<dd></dd></dl>
+
+</div>
+</section>
+<section id="tlv493d-power-modes">
+<h2>TLV493D power modes<a class="headerlink" href="#tlv493d-power-modes" title="Link to this heading"></a></h2>
+<blockquote>
+<div><p>Definition of power modes for tlv493d</p>
+</div></blockquote>
+<dl class="cpp enum">
+<dt class="sig sig-object cpp" id="_CPPv414tlv493d_mode_t">
+<span id="_CPPv314tlv493d_mode_t"></span><span id="_CPPv214tlv493d_mode_t"></span><span class="target" id="tlv493d_8h_1a22b81fa121c2a1e747fa87fc549cae35"></span><span class="k"><span class="pre">enum</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">tlv493d_mode_t</span></span></span><a class="headerlink" href="#_CPPv414tlv493d_mode_t" title="Link to this definition"></a><br /></dt>
+<dd><p>Enum for powermodes. </p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>MASTERCONTROLLERMODE and MASTERCONTROLLERMODE_ULP are not supported for the moment </p>
+</div>
+<p><em>Values:</em></p>
+<dl class="cpp enumerator">
+<dt class="sig sig-object cpp" id="_CPPv4N14tlv493d_mode_t13POWERDOWNMODEE">
+<span id="_CPPv3N14tlv493d_mode_t13POWERDOWNMODEE"></span><span id="_CPPv2N14tlv493d_mode_t13POWERDOWNMODEE"></span><span class="target" id="tlv493d_8h_1a22b81fa121c2a1e747fa87fc549cae35af74eb0f88c89d3e4ee7ef15bfd60069f"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">POWERDOWNMODE</span></span></span><a class="headerlink" href="#_CPPv4N14tlv493d_mode_t13POWERDOWNMODEE" title="Link to this definition"></a><br /></dt>
+<dd><p>Used for disabling tlv493D. It will use 3nA in this mode(see datasheet). </p>
+</dd></dl>
+
+<dl class="cpp enumerator">
+<dt class="sig sig-object cpp" id="_CPPv4N14tlv493d_mode_t8FASTMODEE">
+<span id="_CPPv3N14tlv493d_mode_t8FASTMODEE"></span><span id="_CPPv2N14tlv493d_mode_t8FASTMODEE"></span><span class="target" id="tlv493d_8h_1a22b81fa121c2a1e747fa87fc549cae35a75a396b60e17f987c46aed987881dbcd"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">FASTMODE</span></span></span><a class="headerlink" href="#_CPPv4N14tlv493d_mode_t8FASTMODEE" title="Link to this definition"></a><br /></dt>
+<dd><p>In this mode the value is only 8 bit accuracy but the highest read speed. </p>
+</dd></dl>
+
+<dl class="cpp enumerator">
+<dt class="sig sig-object cpp" id="_CPPv4N14tlv493d_mode_t12LOWPOWERMODEE">
+<span id="_CPPv3N14tlv493d_mode_t12LOWPOWERMODEE"></span><span id="_CPPv2N14tlv493d_mode_t12LOWPOWERMODEE"></span><span class="target" id="tlv493d_8h_1a22b81fa121c2a1e747fa87fc549cae35acb9b23f4d3f7aaffbeca10d76922855f"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">LOWPOWERMODE</span></span></span><a class="headerlink" href="#_CPPv4N14tlv493d_mode_t12LOWPOWERMODEE" title="Link to this definition"></a><br /></dt>
+<dd><p>Read out data ever 12ms </p>
+</dd></dl>
+
+<dl class="cpp enumerator">
+<dt class="sig sig-object cpp" id="_CPPv4N14tlv493d_mode_t17ULTRALOWPOWERMODEE">
+<span id="_CPPv3N14tlv493d_mode_t17ULTRALOWPOWERMODEE"></span><span id="_CPPv2N14tlv493d_mode_t17ULTRALOWPOWERMODEE"></span><span class="target" id="tlv493d_8h_1a22b81fa121c2a1e747fa87fc549cae35a20471dfef61363e388adbf2019aeba53"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">ULTRALOWPOWERMODE</span></span></span><a class="headerlink" href="#_CPPv4N14tlv493d_mode_t17ULTRALOWPOWERMODEE" title="Link to this definition"></a><br /></dt>
+<dd><p>Read out data ever 100ms </p>
+</dd></dl>
+
+<dl class="cpp enumerator">
+<dt class="sig sig-object cpp" id="_CPPv4N14tlv493d_mode_t20MASTERCONTROLLERMODEE">
+<span id="_CPPv3N14tlv493d_mode_t20MASTERCONTROLLERMODEE"></span><span id="_CPPv2N14tlv493d_mode_t20MASTERCONTROLLERMODEE"></span><span class="target" id="tlv493d_8h_1a22b81fa121c2a1e747fa87fc549cae35a6543438ae2a7783ac2257887272b48d0"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">MASTERCONTROLLERMODE</span></span></span><a class="headerlink" href="#_CPPv4N14tlv493d_mode_t20MASTERCONTROLLERMODEE" title="Link to this definition"></a><br /></dt>
+<dd><p>Read out data controlled be cpu. This mode has the same speed as fastmode. This mode can be used interrupt driven or polled.a64l </p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>At the moment only polled mode can be enabled until we find a solution to connect sda pin to interrupt routine. Maybe this can be done by ‘gpio matrix’. </p>
+</div>
+</dd></dl>
+
+<dl class="cpp enumerator">
+<dt class="sig sig-object cpp" id="_CPPv4N14tlv493d_mode_t24MASTERCONTROLLERMODE_ULPE">
+<span id="_CPPv3N14tlv493d_mode_t24MASTERCONTROLLERMODE_ULPE"></span><span id="_CPPv2N14tlv493d_mode_t24MASTERCONTROLLERMODE_ULPE"></span><span class="target" id="tlv493d_8h_1a22b81fa121c2a1e747fa87fc549cae35a3b7c4a8b1ada25b847397c5f2883a640"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">MASTERCONTROLLERMODE_ULP</span></span></span><a class="headerlink" href="#_CPPv4N14tlv493d_mode_t24MASTERCONTROLLERMODE_ULPE" title="Link to this definition"></a><br /></dt>
+<dd><div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Is not supported yet! </p>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="tlv493d-bus-and-tlv493d-config-struct">
+<h2>TLV493D bus and tlv493d config struct<a class="headerlink" href="#tlv493d-bus-and-tlv493d-config-struct" title="Link to this heading"></a></h2>
+<blockquote>
+<div><p>Struct used to save config and and values readout from tlv493d</p>
+</div></blockquote>
+<dl class="cpp struct">
+<dt class="sig sig-object cpp" id="_CPPv417tlv493d_io_conf_t">
+<span id="_CPPv317tlv493d_io_conf_t"></span><span id="_CPPv217tlv493d_io_conf_t"></span><span id="tlv493d_io_conf_t"></span><span class="target" id="structtlv493d__io__conf__t"></span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">tlv493d_io_conf_t</span></span></span><a class="headerlink" href="#_CPPv417tlv493d_io_conf_t" title="Link to this definition"></a><br /></dt>
+<dd><p>Struct to hold bus information data for the tlv493d. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-members">Public Members</p>
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N17tlv493d_io_conf_t11tlv_addressE">
+<span id="_CPPv3N17tlv493d_io_conf_t11tlv_addressE"></span><span id="_CPPv2N17tlv493d_io_conf_t11tlv_addressE"></span><span id="tlv493d_io_conf_t::tlv_address__uint8_t"></span><span class="target" id="structtlv493d__io__conf__t_1adcd27397cb3cc5f572dd5300668b469a"></span><span class="n"><span class="pre">uint8_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">tlv_address</span></span></span><a class="headerlink" href="#_CPPv4N17tlv493d_io_conf_t11tlv_addressE" title="Link to this definition"></a><br /></dt>
+<dd><p>assign I2C address (default 0x5E) </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N17tlv493d_io_conf_t7pin_sdaE">
+<span id="_CPPv3N17tlv493d_io_conf_t7pin_sdaE"></span><span id="_CPPv2N17tlv493d_io_conf_t7pin_sdaE"></span><span id="tlv493d_io_conf_t::pin_sda__uint8_t"></span><span class="target" id="structtlv493d__io__conf__t_1a9e3cfbdbd65ccd8dbdd9aa4e63bbc31a"></span><span class="n"><span class="pre">uint8_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">pin_sda</span></span></span><a class="headerlink" href="#_CPPv4N17tlv493d_io_conf_t7pin_sdaE" title="Link to this definition"></a><br /></dt>
+<dd><p>assign i2c sda pin </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N17tlv493d_io_conf_t7pin_sclE">
+<span id="_CPPv3N17tlv493d_io_conf_t7pin_sclE"></span><span id="_CPPv2N17tlv493d_io_conf_t7pin_sclE"></span><span id="tlv493d_io_conf_t::pin_scl__uint8_t"></span><span class="target" id="structtlv493d__io__conf__t_1a240e95e07d0f8e29b7d485fb9ee94fe6"></span><span class="n"><span class="pre">uint8_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">pin_scl</span></span></span><a class="headerlink" href="#_CPPv4N17tlv493d_io_conf_t7pin_sclE" title="Link to this definition"></a><br /></dt>
+<dd><p>assign i2c scl pin </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N17tlv493d_io_conf_t4modeE">
+<span id="_CPPv3N17tlv493d_io_conf_t4modeE"></span><span id="_CPPv2N17tlv493d_io_conf_t4modeE"></span><span id="tlv493d_io_conf_t::mode__tlv493d_mode_t"></span><span class="target" id="structtlv493d__io__conf__t_1a68ada68e040472ca992d9d12246a22b2"></span><a class="reference internal" href="#_CPPv414tlv493d_mode_t" title="tlv493d_mode_t"><span class="n"><span class="pre">tlv493d_mode_t</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">mode</span></span></span><a class="headerlink" href="#_CPPv4N17tlv493d_io_conf_t4modeE" title="Link to this definition"></a><br /></dt>
+<dd><p>set the used powermode </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N17tlv493d_io_conf_t8use_tempE">
+<span id="_CPPv3N17tlv493d_io_conf_t8use_tempE"></span><span id="_CPPv2N17tlv493d_io_conf_t8use_tempE"></span><span id="tlv493d_io_conf_t::use_temp__b"></span><span class="target" id="structtlv493d__io__conf__t_1a75428e1ade5dca0d86bcc9b863bb2397"></span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">use_temp</span></span></span><a class="headerlink" href="#_CPPv4N17tlv493d_io_conf_t8use_tempE" title="Link to this definition"></a><br /></dt>
+<dd><p>enable/disable temperature read out </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N17tlv493d_io_conf_t10int_enableE">
+<span id="_CPPv3N17tlv493d_io_conf_t10int_enableE"></span><span id="_CPPv2N17tlv493d_io_conf_t10int_enableE"></span><span id="tlv493d_io_conf_t::int_enable__b"></span><span class="target" id="structtlv493d__io__conf__t_1a32b1c5eb2e6f94b9fd442eab5d04ac4a"></span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">int_enable</span></span></span><a class="headerlink" href="#_CPPv4N17tlv493d_io_conf_t10int_enableE" title="Link to this definition"></a><br /></dt>
+<dd><p>enable/disable interrupt pin output </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+</section>
+<section id="tlv493d-config-and-data-struct">
+<h2>TLV493D config and data struct<a class="headerlink" href="#tlv493d-config-and-data-struct" title="Link to this heading"></a></h2>
+<blockquote>
+<div><p>Struct used to save config and and values readout from tlv493d</p>
+</div></blockquote>
+<dl class="cpp struct">
+<dt class="sig sig-object cpp" id="_CPPv414tlv493d_conf_t">
+<span id="_CPPv314tlv493d_conf_t"></span><span id="_CPPv214tlv493d_conf_t"></span><span id="tlv493d_conf_t"></span><span class="target" id="structtlv493d__conf__t"></span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">tlv493d_conf_t</span></span></span><a class="headerlink" href="#_CPPv414tlv493d_conf_t" title="Link to this definition"></a><br /></dt>
+<dd><p>Struct for data and tlv943d configuration. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-members">Public Members</p>
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N14tlv493d_conf_t5dataXE">
+<span id="_CPPv3N14tlv493d_conf_t5dataXE"></span><span id="_CPPv2N14tlv493d_conf_t5dataXE"></span><span id="tlv493d_conf_t::dataX__float"></span><span class="target" id="structtlv493d__conf__t_1a6446693be841db857e8a384938e0c9f3"></span><span class="kt"><span class="pre">float</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">dataX</span></span></span><a class="headerlink" href="#_CPPv4N14tlv493d_conf_t5dataXE" title="Link to this definition"></a><br /></dt>
+<dd><p>data for x axis </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N14tlv493d_conf_t5dataYE">
+<span id="_CPPv3N14tlv493d_conf_t5dataYE"></span><span id="_CPPv2N14tlv493d_conf_t5dataYE"></span><span id="tlv493d_conf_t::dataY__float"></span><span class="target" id="structtlv493d__conf__t_1a99fab5e3a541587182564a005188b56b"></span><span class="kt"><span class="pre">float</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">dataY</span></span></span><a class="headerlink" href="#_CPPv4N14tlv493d_conf_t5dataYE" title="Link to this definition"></a><br /></dt>
+<dd><p>data for y axis </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N14tlv493d_conf_t5dataZE">
+<span id="_CPPv3N14tlv493d_conf_t5dataZE"></span><span id="_CPPv2N14tlv493d_conf_t5dataZE"></span><span id="tlv493d_conf_t::dataZ__float"></span><span class="target" id="structtlv493d__conf__t_1acaad14d0a9237877eeabde68e0b748dd"></span><span class="kt"><span class="pre">float</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">dataZ</span></span></span><a class="headerlink" href="#_CPPv4N14tlv493d_conf_t5dataZE" title="Link to this definition"></a><br /></dt>
+<dd><p>data for z axis </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N14tlv493d_conf_t11temperatureE">
+<span id="_CPPv3N14tlv493d_conf_t11temperatureE"></span><span id="_CPPv2N14tlv493d_conf_t11temperatureE"></span><span id="tlv493d_conf_t::temperature__float"></span><span class="target" id="structtlv493d__conf__t_1a3ed90bdbe088a17a4237ed2fb9e6c284"></span><span class="kt"><span class="pre">float</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">temperature</span></span></span><a class="headerlink" href="#_CPPv4N14tlv493d_conf_t11temperatureE" title="Link to this definition"></a><br /></dt>
+<dd><p>data for temperature </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N14tlv493d_conf_t6amountE">
+<span id="_CPPv3N14tlv493d_conf_t6amountE"></span><span id="_CPPv2N14tlv493d_conf_t6amountE"></span><span id="tlv493d_conf_t::amount__float"></span><span class="target" id="structtlv493d__conf__t_1a6bc5bc72067d548b2cba2b3b00a0ea2f"></span><span class="kt"><span class="pre">float</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">amount</span></span></span><a class="headerlink" href="#_CPPv4N14tlv493d_conf_t6amountE" title="Link to this definition"></a><br /></dt>
+<dd><p>amount data </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N14tlv493d_conf_t7azimuthE">
+<span id="_CPPv3N14tlv493d_conf_t7azimuthE"></span><span id="_CPPv2N14tlv493d_conf_t7azimuthE"></span><span id="tlv493d_conf_t::azimuth__float"></span><span class="target" id="structtlv493d__conf__t_1ab197330a5e736dd5d485928f38fee20b"></span><span class="kt"><span class="pre">float</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">azimuth</span></span></span><a class="headerlink" href="#_CPPv4N14tlv493d_conf_t7azimuthE" title="Link to this definition"></a><br /></dt>
+<dd><p>azimuth data </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N14tlv493d_conf_t5polarE">
+<span id="_CPPv3N14tlv493d_conf_t5polarE"></span><span id="_CPPv2N14tlv493d_conf_t5polarE"></span><span id="tlv493d_conf_t::polar__float"></span><span class="target" id="structtlv493d__conf__t_1a407ac4cfefe212a789f128bba8cdfdf1"></span><span class="kt"><span class="pre">float</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">polar</span></span></span><a class="headerlink" href="#_CPPv4N14tlv493d_conf_t5polarE" title="Link to this definition"></a><br /></dt>
+<dd><p>polar data </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N14tlv493d_conf_t12tlv493d_confE">
+<span id="_CPPv3N14tlv493d_conf_t12tlv493d_confE"></span><span id="_CPPv2N14tlv493d_conf_t12tlv493d_confE"></span><span id="tlv493d_conf_t::tlv493d_conf__tlv493d_io_conf_t"></span><span class="target" id="structtlv493d__conf__t_1aa4612fff3c4a2020ff94532cb54473e1"></span><a class="reference internal" href="#_CPPv417tlv493d_io_conf_t" title="tlv493d_io_conf_t"><span class="n"><span class="pre">tlv493d_io_conf_t</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">tlv493d_conf</span></span></span><a class="headerlink" href="#_CPPv4N14tlv493d_conf_t12tlv493d_confE" title="Link to this definition"></a><br /></dt>
+<dd><p>hold base config (see ‘<a class="reference internal" href="#structtlv493d__io__conf__t"><span class="std std-ref">tlv493d_io_conf_t</span></a>’) </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+</section>
+<section id="tlv493d-read-out-register">
+<h2>TLV493D read out register<a class="headerlink" href="#tlv493d-read-out-register" title="Link to this heading"></a></h2>
+<blockquote>
+<div><p>Here we can found the read register</p>
+</div></blockquote>
+<dl class="cpp macro">
+<dt class="sig sig-object cpp" id="c.BANK_X1">
+<span class="target" id="group__Readregister_1gade7f37a7b0cf2a5c3d28b27ebf1cc0a9"></span><span class="sig-name descname"><span class="n"><span class="pre">BANK_X1</span></span></span> <span class="pre">0x00</span><a class="headerlink" href="#c.BANK_X1" title="Link to this definition"></a><br /></dt>
+<dd><p>[7:0] x significant bits 11…4 </p>
+</dd></dl>
+
+<dl class="cpp macro">
+<dt class="sig sig-object cpp" id="c.BANK_Y1">
+<span class="target" id="group__Readregister_1gad81a28f65cc31b209561f0a4d9999edb"></span><span class="sig-name descname"><span class="n"><span class="pre">BANK_Y1</span></span></span> <span class="pre">0x01</span><a class="headerlink" href="#c.BANK_Y1" title="Link to this definition"></a><br /></dt>
+<dd><p>[7:0] y significant bits 11…4 </p>
+</dd></dl>
+
+<dl class="cpp macro">
+<dt class="sig sig-object cpp" id="c.BANK_Z1">
+<span class="target" id="group__Readregister_1ga5080578756e2491c0bf0dd6c3f477b5a"></span><span class="sig-name descname"><span class="n"><span class="pre">BANK_Z1</span></span></span> <span class="pre">0x02</span><a class="headerlink" href="#c.BANK_Z1" title="Link to this definition"></a><br /></dt>
+<dd><p>[7:0] z significant bits 11…4 </p>
+</dd></dl>
+
+<dl class="cpp macro">
+<dt class="sig sig-object cpp" id="c.BANK_TEMP1">
+<span class="target" id="group__Readregister_1ga1a2664d30f6509c6b2c58408ec5676ed"></span><span class="sig-name descname"><span class="n"><span class="pre">BANK_TEMP1</span></span></span> <span class="pre">0x03</span><a class="headerlink" href="#c.BANK_TEMP1" title="Link to this definition"></a><br /></dt>
+<dd><p><p>[7:4] temp significant bits 3…0</p>
+<p>[3:2] frame count</p>
+
+ [1:0] channel </p>
+</dd></dl>
+
+<dl class="cpp macro">
+<dt class="sig sig-object cpp" id="c.BANK_XY2">
+<span class="target" id="group__Readregister_1ga34bd6390ea5dacdde83ed90627aa4b54"></span><span class="sig-name descname"><span class="n"><span class="pre">BANK_XY2</span></span></span> <span class="pre">0x04</span><a class="headerlink" href="#c.BANK_XY2" title="Link to this definition"></a><br /></dt>
+<dd><p><p>[7:4] x siginificant bits 3…0</p>
+<p>[3:0] y siginificant bits 3…0</p>
+</p>
+</dd></dl>
+
+<dl class="cpp macro">
+<dt class="sig sig-object cpp" id="c.BANK_Z2">
+<span class="target" id="group__Readregister_1ga8493f22f88d81979052f2069071aa1eb"></span><span class="sig-name descname"><span class="n"><span class="pre">BANK_Z2</span></span></span> <span class="pre">0x05</span><a class="headerlink" href="#c.BANK_Z2" title="Link to this definition"></a><br /></dt>
+<dd><p><p>[7] not used</p>
+<p>[6] testmode flag</p>
+<p>[5] parity check</p>
+<p>[4] power down flag (must be 1 if complete otherwise reading is running)</p>
+
+ [3:0] z significant bits 3..0 </p>
+</dd></dl>
+
+<dl class="cpp macro">
+<dt class="sig sig-object cpp" id="c.BANK_TEMP2">
+<span class="target" id="group__Readregister_1ga956736d02260a2b249dc086e42471374"></span><span class="sig-name descname"><span class="n"><span class="pre">BANK_TEMP2</span></span></span> <span class="pre">0x06</span><a class="headerlink" href="#c.BANK_TEMP2" title="Link to this definition"></a><br /></dt>
+<dd><p>temperatur significant bits 11…4 </p>
+</dd></dl>
+
+<dl class="cpp macro">
+<dt class="sig sig-object cpp" id="c.BANK_RES1">
+<span class="target" id="group__Readregister_1ga47f4a9d666e2f7e9bb8a49b90bd17be5"></span><span class="sig-name descname"><span class="n"><span class="pre">BANK_RES1</span></span></span> <span class="pre">0x07</span><a class="headerlink" href="#c.BANK_RES1" title="Link to this definition"></a><br /></dt>
+<dd><p>[6:3] must be written from register BANK_Z2 </p>
+</dd></dl>
+
+<dl class="cpp macro">
+<dt class="sig sig-object cpp" id="c.BANK_RES2">
+<span class="target" id="group__Readregister_1gae3818594f9ef5fa7a7ac234e8dbca1af"></span><span class="sig-name descname"><span class="n"><span class="pre">BANK_RES2</span></span></span> <span class="pre">0x08</span><a class="headerlink" href="#c.BANK_RES2" title="Link to this definition"></a><br /></dt>
+<dd><p>[7:0] must be written into register REG_MOD2 </p>
+</dd></dl>
+
+<dl class="cpp macro">
+<dt class="sig sig-object cpp" id="c.BANK_RES3">
+<span class="target" id="group__Readregister_1ga80a1efe8c851e36cb74464cd8205cd91"></span><span class="sig-name descname"><span class="n"><span class="pre">BANK_RES3</span></span></span> <span class="pre">0x09</span><a class="headerlink" href="#c.BANK_RES3" title="Link to this definition"></a><br /></dt>
+<dd><p>[4:0] must be written into register REG_MOD3 </p>
+</dd></dl>
+
+</section>
+<section id="tlv493d-write-register">
+<h2>TLV493D write register<a class="headerlink" href="#tlv493d-write-register" title="Link to this heading"></a></h2>
+<blockquote>
+<div><p>Here we can found the write register</p>
+</div></blockquote>
+<dl class="cpp macro">
+<dt class="sig sig-object cpp" id="c.REG_MOD0">
+<span class="target" id="group__Writeregister_1gad5b8442b034f01f300103d1ab61ed75a"></span><span class="sig-name descname"><span class="n"><span class="pre">REG_MOD0</span></span></span> <span class="pre">0x00</span><a class="headerlink" href="#c.REG_MOD0" title="Link to this definition"></a><br /></dt>
+<dd><p>reserved </p>
+</dd></dl>
+
+<dl class="cpp macro">
+<dt class="sig sig-object cpp" id="c.REG_MOD1">
+<span class="target" id="group__Writeregister_1ga77586e0edcfe8cc3ac66c873276946e3"></span><span class="sig-name descname"><span class="n"><span class="pre">REG_MOD1</span></span></span> <span class="pre">0x01</span><a class="headerlink" href="#c.REG_MOD1" title="Link to this definition"></a><br /></dt>
+<dd><p><p>[7] parity bit: Sum of all 32 bits from write registers 0 H , 1H , 2 H and 3H must be odd.</p>
+<p>[6:5] i2c address bits: Bits can be set to “00”, “01”, “10” or “11” to define the slave address in bus configuration. Caution! must be filled from BANK_RES1</p>
+<p>[4:3] must be filled from BANK_RES1</p>
+<p>[2] interuped enabled</p>
+<p>[1] fast mode</p>
+<p>[0] low power mode</p>
+</p>
+</dd></dl>
+
+<dl class="cpp macro">
+<dt class="sig sig-object cpp" id="c.REG_MOD2">
+<span class="target" id="group__Writeregister_1ga2426b14d22dc9dda913a178daab476aa"></span><span class="sig-name descname"><span class="n"><span class="pre">REG_MOD2</span></span></span> <span class="pre">0x02</span><a class="headerlink" href="#c.REG_MOD2" title="Link to this definition"></a><br /></dt>
+<dd><p>fill witch BANK_RES2 </p>
+</dd></dl>
+
+<dl class="cpp macro">
+<dt class="sig sig-object cpp" id="c.REG_MOD3">
+<span class="target" id="group__Writeregister_1ga66fae4b9ea9c64dfd01e9533aecdfa07"></span><span class="sig-name descname"><span class="n"><span class="pre">REG_MOD3</span></span></span> <span class="pre">0x03</span><a class="headerlink" href="#c.REG_MOD3" title="Link to this definition"></a><br /></dt>
+<dd><p><p>[7] Temperature measurement enabled</p>
+<p>[6] Low-power period “0” period is 100ms (ultra low-power period), “1” period is 12ms</p>
+<p>[5] Parity test enabled</p>
+<p>[4:0] must be filled from BANK_RES3</p>
+</p>
+</dd></dl>
+
+</section>
+<section id="tlv493d-correction-values">
+<h2>TLV493D correction values<a class="headerlink" href="#tlv493d-correction-values" title="Link to this heading"></a></h2>
+<blockquote>
+<div><p>Here we can found the correction values</p>
+</div></blockquote>
+<dl class="cpp macro">
+<dt class="sig sig-object cpp" id="c.TLV493D_AXE_MULT">
+<span class="target" id="group__Defaults_1gaa08c4701473cb64342c540051c7d546e"></span><span class="sig-name descname"><span class="n"><span class="pre">TLV493D_AXE_MULT</span></span></span> <span class="pre">0.098</span><a class="headerlink" href="#c.TLV493D_AXE_MULT" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp macro">
+<dt class="sig sig-object cpp" id="c.TLV493D_TEMP_MULT">
+<span class="target" id="group__Defaults_1gad5972ae40a67ea23290b2ecdc20527fe"></span><span class="sig-name descname"><span class="n"><span class="pre">TLV493D_TEMP_MULT</span></span></span> <span class="pre">1.1</span><a class="headerlink" href="#c.TLV493D_TEMP_MULT" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp macro">
+<dt class="sig sig-object cpp" id="c.TLV493D_TEMP_OFFSET">
+<span class="target" id="group__Defaults_1gaff250ce04ccd5a141c7212aa2822e3d9"></span><span class="sig-name descname"><span class="n"><span class="pre">TLV493D_TEMP_OFFSET</span></span></span> <span class="pre">324</span><a class="headerlink" href="#c.TLV493D_TEMP_OFFSET" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="quickstart.html" class="btn btn-neutral float-left" title="Quickstart" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="license.html" class="btn btn-neutral float-right" title="License" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Juen Rene.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
