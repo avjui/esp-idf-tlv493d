@@ -1,0 +1,34 @@
+menu "TLV493D Configuration"
+    choice
+        prompt "I2C address"
+        config TLV493D_I2C_ADDRESS1
+            bool "0x5E"
+        config TLV493D_I2C_ADDRESS2
+            bool "0x1F"
+    endchoice
+    
+    config TLV493D_I2C_ADDRESS
+        int
+        default 94 if TLV493D_I2C_ADDRESS1
+        default 31 if TLV493D_I2C_ADDRESS2
+
+    config TLV493D_PIN_SDA
+        int "SDA pin number"
+        default 8
+        help
+        SDA pin for TLV493D.
+    
+    config TLV493D_PIN_SCL
+        int "SCL pin number"
+        default 9
+        help
+        SCL pin for TLV493D.
+
+    config TLV493D_TEMP_ENABLE
+            bool "Enable readout of temperature"
+            default y
+
+    config TLV493D_INT_ENABLE
+        bool "Enable interrupt pin out"
+        default n
+endmenu

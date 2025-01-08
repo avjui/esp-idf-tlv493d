@@ -1,0 +1,53 @@
+# Copyright (C) 2025 Juen Rene´
+# 
+# This file is part of esp-idf-tlv493d.
+# 
+# esp-idf-tlv493d is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+# 
+# esp-idf-tlv493d is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+# 
+# You should have received a copy of the GNU General Public License
+# along with esp-idf-tlv493d.  If not, see <https://www.gnu.org/licenses/>.
+
+name: Documentation
+
+on:
+  #push:
+  #  branches-ignore:
+  #    - '**'  
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+  
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Requirements
+      run: sudo apt-get install -y build-essential make gcc g++ cmake doxygen git tree python3 python3-pip 
+        && pip install -U sphinx-rtd-theme 
+        && pip install -U breathe
+        && pip install -U sphinx-sitemap
+    - name: Checkout repo
+      uses: actions/checkout@1.0.0
+    - name: Build docs
+      run: cd doc
+        && cmake .
+        && make doc
+        && cd sphinx/html/
+        && touch .nojekyll
+    - name: Deploy
+      uses: JamesIves/github-pages-deploy-action@releases/v4
+      with:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        BRANCH: gh-pages # The branch the action should deploy to.
+        FOLDER: doc/sphinx/html/ # The folder the action should deploy.
