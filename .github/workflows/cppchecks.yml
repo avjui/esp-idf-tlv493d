@@ -39,5 +39,5 @@ jobs:
 
       - name: cppcheck for platformIO project
         run: |
-          cd example
+          cd example/basic
           platformio check --verbose --severity=high --fail-on-defect=high --skip-packages

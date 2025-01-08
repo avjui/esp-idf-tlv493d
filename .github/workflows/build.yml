@@ -39,5 +39,5 @@ jobs:
 
       - name: Build PlatformIO Project
         run: |
-          cd example/base
+          cd example/basic
           pio run
