@@ -23,7 +23,9 @@
 
 ## About <a name = "about"></a>
 
-This libaray is for the tlv493d ic to read out magnetic data 
+This libaray is for the tlv493d ic to read out magnetic data.
+
+:warning: This repository is still in development!
 
 ## Getting Started <a name = "getting_started"></a>
 
@@ -38,7 +40,7 @@ Here you can find a short example how to use the library in your project.
 
 :file_folder: You can also find an example in [example](https://github.com/avjui/esp-idf-tlv493d/tree/master/example) folder.
 
-:warning: The library was only tested with esp-idf version `5.1` and `5.2`
+:warning: The library was only tested with esp-idf version `5.1` and `5.2`.
 
 ### Installation <a name = "installing"></a>
 
@@ -177,7 +179,7 @@ ESP_LOGI("MAIN", "X: %f, Y: %f, Y: %f", conf_magnetometer.dataX, conf_magnetomet
 
 ## Documentation <a name = "documentation"></a>
 
-For more information you can have a look at the [documentation](https://avjui.gihub.io/esp-idf-tlv493d)
+For more information you can have a look at the [documentation](https://avjui.gihub.io/esp-idf-tlv493d).
 
 ## Todo <a name = "todo"></a>
 
