@@ -223,6 +223,7 @@ esp_err_t TLV493D::init_bus(tlv493d_io_conf_t *config)
     err = i2c_master_bus_add_device(*bus_handle, &dev_config, dev_handle);
 #else
 
+#pragma GCC diagnostic ignored "-Wmissing-field-initializers"
     i2c_conf = {
         .mode = I2C_MODE_MASTER,
         .sda_io_num = config->pin_sda,
@@ -232,10 +233,9 @@ esp_err_t TLV493D::init_bus(tlv493d_io_conf_t *config)
         .master = {
             .clk_speed = I2C_MASTER_FREQ_HZ,
         },
-        //.clk_flags = I2C_SCLK_SRC_FLAG_FOR_NOMAL,
-        //.clk_flags = 0,
     };
-
+#pragma GCC diagnostic pop
+    
     i2c_param_config(_i2c_master_port, &i2c_conf);
 
     err = i2c_driver_install(_i2c_master_port, i2c_conf.mode, 0, 0, 0);
