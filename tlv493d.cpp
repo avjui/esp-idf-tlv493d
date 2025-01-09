@@ -377,9 +377,19 @@ void TLV493D::backgroundTask(void *pvParameter)
             gpio_install_isr_service(0);
             gpio_isr_handler_add((gpio_num_t)ptrTLV493D->_config->tlv493d_conf.pin_scl, ptrTLV493D->interruptHandler, (void *)ptrTLV493D->_config->tlv493d_conf.pin_scl);
 
-            /* mark interrupt as enabled */
-            _int_enabled = true;
->>>>>>> Stashed changes
+                /* mark interrupt as enabled */
+                _int_enabled = true;
+            }
+        }
+        /* default handling */
+        else
+        {
+            _err = ptrTLV493D->update();
+            if (_err != ESP_OK)
+            {
+                ESP_LOGD(MODUL_THREAD_TLV, "Faild to update data!");
+            }
+            vTaskDelay(ptrTLV493D->readoutPeriod / portTICK_PERIOD_MS);
         }
     }
 
@@ -475,12 +485,6 @@ void IRAM_ATTR TLV493D::interruptHandler(void *pvParameter)
 {
     /* we send the gpio pin to get shure that the interrupt come from the selected tlv493d */
     uint32_t gpio_num = (uint32_t)pvParameter;
-    esp_err_t _err = gpio_intr_disable((gpio_num_t)8);
-    
-    /* only for testing */
-    esp_rom_printf("Interupt received: %ld", gpio_num);
-    
-    /* send to queue */
     xQueueSendFromISR(isr_evt_queue, &gpio_num, NULL);
 }
 
