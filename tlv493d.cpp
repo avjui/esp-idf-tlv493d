@@ -282,7 +282,7 @@ void TLV493D::backgroundTask(void *pvParameter)
     while (thread_status)
     {
         /* TODO: Implement interrupt driven mode. See notes in document.
-         *       Check for interrupt driven MASTERCONTROLLMODE otherwise we have to wait 
+         *       Check for interrupt driven MASTERCONTROLLMODE otherwise we have to wait
          */
         if (ptrTLV493D->_config->tlv493d_conf.int_enable && ptrTLV493D->_config->tlv493d_conf.mode == MASTERCONTROLLERMODE)
         {
@@ -314,7 +314,10 @@ void TLV493D::backgroundTask(void *pvParameter)
         else
         {
             _err = ptrTLV493D->update();
-            printf("Err: %s", esp_err_to_name(_err));
+            if (_err != ESP_OK)
+            {
+                ESP_LOGD(MODUL_THREAD_TLV, "Faild to update data!");
+            }
             vTaskDelay(ptrTLV493D->readoutPeriod / portTICK_PERIOD_MS);
         }
     }
@@ -407,7 +410,6 @@ void IRAM_ATTR TLV493D::interruptHandler(void *pvParameter)
 {
     /* we send the gpio pin to get shure that the interrupt come from the selected tlv493d */
     uint32_t gpio_num = (uint32_t)pvParameter;
-    // printf("Interrupt\n");
     xQueueSendFromISR(isr_evt_queue, &gpio_num, NULL);
 }
 
@@ -450,8 +452,8 @@ esp_err_t TLV493D::writeConfig(tlv493d_io_conf_t *config)
     switch (config->mode)
     {
         /* TODO: Implement MASTERCONTROLLERMODE_ULP.
-        *        At the moment we fall back to ULTRALOWPOWERMODE
-        */
+         *        At the moment we fall back to ULTRALOWPOWERMODE
+         */
     case MASTERCONTROLLERMODE_ULP:
         ESP_LOGW(MODUL_TLV, "This mode is not supported yet. Switching to [ULTRALOWPOWERMODE]!");
         config->mode = LOWPOWERMODE;
