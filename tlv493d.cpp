@@ -95,7 +95,10 @@ esp_err_t TLV493D::startBackgroundRead(void)
 {
     ESP_LOGI(MODUL_TLV, "Starting background task");
 
-    /* start thread*/
+    /* start background thread for interrupt handling
+     * note: this function is not implement at the moment until i find
+     * a solution that the interrupt will coexistend with i2c
+     */
     if (_config->tlv493d_conf.int_enable && _config->tlv493d_conf.mode == MASTERCONTROLLERMODE)
     {
         /* set thread status*/
@@ -297,22 +300,16 @@ void TLV493D::backgroundTask(void *pvParameter)
 {
     esp_err_t _err;
     uint32_t io_num;
-<<<<<<< Updated upstream
-    TLV493D *ptrTLV493D = (TLV493D *)pvParameter;
-    
-    /* add interrupt handler and activate interrupt */
-    /* _err = gpio_isr_handler_add((gpio_num_t)ptrTLV493D->_config->tlv493d_conf.pin_scl, ptrTLV493D->interruptHandler, (void *)ptrTLV493D->_config->tlv493d_conf.pin_scl);
-    gpio_intr_disable((gpio_num_t)ptrTLV493D->_config->tlv493d_conf.pin_scl);
-    gpio_intr_enable((gpio_num_t)ptrTLV493D->_config->tlv493d_conf.pin_scl);
-    */
-=======
+
     TLV493D *ptrTLV493D = static_cast<TLV493D *>(pvParameter);
-    bool _int_enabled = false;
+    bool _int_enabled = true;
 
     /* mark interrupt as enabled */
     _int_enabled = true;
 
     /* install isr handler */
+    gpio_set_intr_type((gpio_num_t)ptrTLV493D->_config->tlv493d_conf.pin_scl, GPIO_INTR_ANYEDGE);
+    gpio_intr_enable((gpio_num_t)ptrTLV493D->_config->tlv493d_conf.pin_scl);
     gpio_install_isr_service(0);
     _err = gpio_isr_handler_add((gpio_num_t)ptrTLV493D->_config->tlv493d_conf.pin_scl, ptrTLV493D->interruptHandler, (void *)ptrTLV493D->_config->tlv493d_conf.pin_scl);
 
@@ -323,40 +320,11 @@ void TLV493D::backgroundTask(void *pvParameter)
         _int_enabled = false;
     }
 
->>>>>>> Stashed changes
     while (thread_status)
     {
         /* TODO: Implement interrupt driven mode. See notes in document.
          *       Check for interrupt driven MASTERCONTROLLMODE otherwise we have to wait
          */
-<<<<<<< Updated upstream
-
-        if ((!ptrTLV493D->_config->tlv493d_conf.int_enable == true) && (ptrTLV493D->_config->tlv493d_conf.mode == MASTERCONTROLLERMODE))
-        {
-            /* We received interrupt */
-            xQueueReceive(isr_evt_queue, &io_num, portMAX_DELAY);
-
-            if (io_num == ptrTLV493D->_config->tlv493d_conf.pin_scl)
-            {
-                /* read out data */
-                _err = ptrTLV493D->update();
-
-                /* enable interrupt again */
-               // gpio_intr_enable((gpio_num_t)ptrTLV493D->_config->tlv493d_conf.pin_scl);
-  
-            }
-        }
-        /* default handling */
-        else
-        {
-            printf("herer");
-            _err = ptrTLV493D->update();
-            if (_err != ESP_OK)
-            {
-                ESP_LOGD(MODUL_THREAD_TLV, "Faild to update data!");
-            }
-            vTaskDelay(ptrTLV493D->readoutPeriod / portTICK_PERIOD_MS);
-=======
         /* We received interrupt */
         xQueueReceive(isr_evt_queue, &io_num, 10);
         if (io_num == ptrTLV493D->_config->tlv493d_conf.pin_scl)
@@ -377,19 +345,8 @@ void TLV493D::backgroundTask(void *pvParameter)
             gpio_install_isr_service(0);
             gpio_isr_handler_add((gpio_num_t)ptrTLV493D->_config->tlv493d_conf.pin_scl, ptrTLV493D->interruptHandler, (void *)ptrTLV493D->_config->tlv493d_conf.pin_scl);
 
-                /* mark interrupt as enabled */
-                _int_enabled = true;
-            }
-        }
-        /* default handling */
-        else
-        {
-            _err = ptrTLV493D->update();
-            if (_err != ESP_OK)
-            {
-                ESP_LOGD(MODUL_THREAD_TLV, "Faild to update data!");
-            }
-            vTaskDelay(ptrTLV493D->readoutPeriod / portTICK_PERIOD_MS);
+            /* mark interrupt as enabled */
+            _int_enabled = true;
         }
     }
 
@@ -590,7 +547,7 @@ esp_err_t TLV493D::writeConfig(tlv493d_io_conf_t *config)
 =======
         config->int_enable = false;
         w_buffer[REG_MOD1] = ((config->int_enable) << 2) | w_buffer[REG_MOD1];
-        ESP_LOGI(MODUL_TLV, "Interrupt of tlv493d is [disabel]. See note in documentation");
+        ESP_LOGI(MODUL_TLV, "Interrupt of tlv493d is [disable]. See note in documentation");
         /* if we disable interrupt we must set low power period to 1
          *  otherwise parity check will fail and no data can read out
          */
@@ -599,7 +556,6 @@ esp_err_t TLV493D::writeConfig(tlv493d_io_conf_t *config)
             w_buffer[REG_MOD3] = (1 << 6) | w_buffer[REG_MOD3];
         }
         readoutPeriod = READOUT_HIGH_PERIOD;
->>>>>>> Stashed changes
         ESP_LOGI(MODUL_TLV, "Powermode is set to [master controller mode]!");
         break;
     default:
