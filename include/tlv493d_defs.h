@@ -47,9 +47,11 @@ extern "C"
 #define ACK     1
 #define N_ACK    0
 
-#define READOUT_HIGH_PERIOD     12
-#define READOUT_LOW_PERIOD      100
-#define READOUT_MAX_TIMES       10
+#define READOUT_HIGH_PERIOD     1000000 / 3300      /* 3.3 khz */
+#define READOUT_NORMAL_PERIOD   1000000 / 100       /* 100 hz */
+#define READOUT_LOW_PERIOD      1000000 / 10        /* 10 hz*/
+
+#define READOUT_MAX_TIMES       10 / portTICK_PERIOD_MS
 
 /******************
  *  Read register *

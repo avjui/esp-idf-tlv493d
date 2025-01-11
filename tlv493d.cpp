@@ -76,6 +76,17 @@ esp_err_t TLV493D::init(tlv493d_conf_t *config)
         return err;
     }
 
+    /* generate timer config*/
+    esp_timer_create_args_t periodic_timer_args;
+    periodic_timer_args.callback = &periodic_timer_callback;
+    periodic_timer_args.arg = this;
+    periodic_timer_args.name = "tlv493d timer";
+
+    err = esp_timer_create(&periodic_timer_args, &tlv493d_timer);
+    if (err != ESP_OK)
+    {
+        ESP_LOGE(MODUL_TLV, "Can´t generate timer handler with error: %s. Abort!", esp_err_to_name(err));
+    }
     ESP_LOGI(MODUL_TLV, "TLV493D ready for read!");
     return ESP_OK;
 }
@@ -84,22 +95,33 @@ esp_err_t TLV493D::startBackgroundRead(void)
 {
     ESP_LOGI(MODUL_TLV, "Starting background task");
 
-    /* set thread status*/
-    thread_status = true;
-
     /* start thread*/
-    xTaskCreate(backgroundTask, "TLV493D - Thread", 2096, this, 5, NULL);
-
+    if (_config->tlv493d_conf.int_enable && _config->tlv493d_conf.mode == MASTERCONTROLLERMODE)
+    {
+        /* set thread status*/
+        thread_status = true;
+        xTaskCreate(backgroundTask, "TLV493D - Thread", 2096, this, 5, NULL);
+    }
+    /* start timer */
+    else
+    {
+        ESP_LOGI(MODUL_TLV, "Starting timer for readout");
+        esp_timer_start_periodic(tlv493d_timer, (uint64_t)readoutPeriod);
+    }
     return ESP_OK;
 }
 
 esp_err_t TLV493D::stop(void)
 {
     thread_status = false;
-    if (_config->tlv493d_conf.mode == MASTERCONTROLLERMODE)
+    if (_config->tlv493d_conf.int_enable && _config->tlv493d_conf.mode == MASTERCONTROLLERMODE)
     {
         gpio_isr_handler_remove((gpio_num_t)_config->tlv493d_conf.pin_scl);
         ESP_LOGD(MODUL_TLV, "Remove interrupt handler");
+    }
+    else
+    {
+        esp_timer_stop(tlv493d_timer);
     }
     return ESP_OK;
 }
@@ -275,6 +297,7 @@ void TLV493D::backgroundTask(void *pvParameter)
 {
     esp_err_t _err;
     uint32_t io_num;
+<<<<<<< Updated upstream
     TLV493D *ptrTLV493D = (TLV493D *)pvParameter;
     
     /* add interrupt handler and activate interrupt */
@@ -282,11 +305,31 @@ void TLV493D::backgroundTask(void *pvParameter)
     gpio_intr_disable((gpio_num_t)ptrTLV493D->_config->tlv493d_conf.pin_scl);
     gpio_intr_enable((gpio_num_t)ptrTLV493D->_config->tlv493d_conf.pin_scl);
     */
+=======
+    TLV493D *ptrTLV493D = static_cast<TLV493D *>(pvParameter);
+    bool _int_enabled = false;
+
+    /* mark interrupt as enabled */
+    _int_enabled = true;
+
+    /* install isr handler */
+    gpio_install_isr_service(0);
+    _err = gpio_isr_handler_add((gpio_num_t)ptrTLV493D->_config->tlv493d_conf.pin_scl, ptrTLV493D->interruptHandler, (void *)ptrTLV493D->_config->tlv493d_conf.pin_scl);
+
+    if (_err != ESP_OK)
+    {
+        ESP_LOGE(MODUL_THREAD_TLV, "Can not add interrupt handler with error: %s. Aborting!", esp_err_to_name(_err));
+        thread_status = false;
+        _int_enabled = false;
+    }
+
+>>>>>>> Stashed changes
     while (thread_status)
     {
         /* TODO: Implement interrupt driven mode. See notes in document.
          *       Check for interrupt driven MASTERCONTROLLMODE otherwise we have to wait
          */
+<<<<<<< Updated upstream
 
         if ((!ptrTLV493D->_config->tlv493d_conf.int_enable == true) && (ptrTLV493D->_config->tlv493d_conf.mode == MASTERCONTROLLERMODE))
         {
@@ -313,6 +356,30 @@ void TLV493D::backgroundTask(void *pvParameter)
                 ESP_LOGD(MODUL_THREAD_TLV, "Faild to update data!");
             }
             vTaskDelay(ptrTLV493D->readoutPeriod / portTICK_PERIOD_MS);
+=======
+        /* We received interrupt */
+        xQueueReceive(isr_evt_queue, &io_num, 10);
+        if (io_num == ptrTLV493D->_config->tlv493d_conf.pin_scl)
+        {
+            /* remove interrupt handler */
+            gpio_isr_handler_remove((gpio_num_t)ptrTLV493D->_config->tlv493d_conf.pin_scl);
+
+            /* read out data */
+            _err = ptrTLV493D->update();
+
+            /* mark interrupt as disabled */
+            _int_enabled = false;
+        }
+        if (!_int_enabled)
+        {
+
+            /* install isr handler */
+            gpio_install_isr_service(0);
+            gpio_isr_handler_add((gpio_num_t)ptrTLV493D->_config->tlv493d_conf.pin_scl, ptrTLV493D->interruptHandler, (void *)ptrTLV493D->_config->tlv493d_conf.pin_scl);
+
+            /* mark interrupt as enabled */
+            _int_enabled = true;
+>>>>>>> Stashed changes
         }
     }
 
@@ -341,7 +408,9 @@ esp_err_t TLV493D::update()
         if (((this->r_buffer[BANK_TEMP1] & 0x0C) >> 2) == _count)
         {
             ESP_LOGD(MODUL_THREAD_TLV, "No new data. Skip storing");
-            vTaskDelay(10 / portTICK_PERIOD_MS);
+            /* wait 1 ms and try again */
+            vTaskDelay(1 / portTICK_PERIOD_MS);
+            err = ESP_ERR_INVALID_RESPONSE;
             continue;
         }
         /* second we check power down flag. According to datasheet it must
@@ -350,7 +419,9 @@ esp_err_t TLV493D::update()
         else if ((this->r_buffer[BANK_TEMP1] & 0x08) == 0)
         {
             ESP_LOGD(MODUL_THREAD_TLV, "TLV493D is reading out. Skip storing");
-            vTaskDelay(10 / portTICK_PERIOD_MS);
+            /* wait 1 ms and try again */
+            vTaskDelay(1 / portTICK_PERIOD_MS);
+            err = ESP_ERR_NOT_FINISHED;
             continue;
         }
         else
@@ -397,7 +468,7 @@ esp_err_t TLV493D::update()
             return err;
         }
     }
-    return ESP_FAIL;
+    return err;
 }
 
 void IRAM_ATTR TLV493D::interruptHandler(void *pvParameter)
@@ -444,6 +515,9 @@ esp_err_t TLV493D::writeConfig(tlv493d_io_conf_t *config)
     /* first we set parity bit to 1 it will be calculated before we write*/
     w_buffer[REG_MOD1] = (1 << 7) | w_buffer[REG_MOD1];
 
+    w_buffer[REG_MOD3] = (1 << 5) | w_buffer[REG_MOD3];
+    ESP_LOGI(MODUL_TLV, "Set parity check bit as [enabled]");
+
     /* set interrupt flag (0 disabled 1 enabled) */
     w_buffer[REG_MOD1] = ((config->int_enable) << 2) | w_buffer[REG_MOD1];
     ESP_LOGI(MODUL_TLV, "Interrupt of tlv493d is [%s]", config->int_enable ? "enabled" : "disabled");
@@ -487,7 +561,7 @@ esp_err_t TLV493D::writeConfig(tlv493d_io_conf_t *config)
          */
         w_buffer[REG_MOD1] = 1 | w_buffer[REG_MOD1];
         w_buffer[REG_MOD3] = (1 << 6) | w_buffer[REG_MOD3];
-        readoutPeriod = READOUT_HIGH_PERIOD;
+        readoutPeriod = READOUT_NORMAL_PERIOD;
         ESP_LOGI(MODUL_TLV, "Powermode is set to [low power mode]!");
         break;
     case ULTRALOWPOWERMODE:
@@ -500,15 +574,28 @@ esp_err_t TLV493D::writeConfig(tlv493d_io_conf_t *config)
         /* set master controller mode. fastmode = 1, lp_mode = 1, int_out = 0/1 */
         w_buffer[REG_MOD1] = (1 << 1) | w_buffer[REG_MOD1];
         w_buffer[REG_MOD1] = 1 | w_buffer[REG_MOD1];
-        w_buffer[REG_MOD3] = (1 << 6) | w_buffer[REG_MOD3];
         /* TODO: Implement this. Find a way to connect interrupt to sda pin
          *       Maybe this can be done with the gpio matrix. At the moment
          *       we disable interrupt for this mode
          */
         /* we disable interrupt in this mode until we found a solution for connecting interrupt */
+<<<<<<< Updated upstream
         _config->tlv493d_conf.int_enable = true;
         w_buffer[REG_MOD1] = ((_config->tlv493d_conf.int_enable) << 2) | w_buffer[REG_MOD1];
         ESP_LOGI(MODUL_TLV, "Interrupt of tlv493d is [%s]", _config->tlv493d_conf.int_enable ? "enabled" : "disabled");
+=======
+        config->int_enable = false;
+        w_buffer[REG_MOD1] = ((config->int_enable) << 2) | w_buffer[REG_MOD1];
+        ESP_LOGI(MODUL_TLV, "Interrupt of tlv493d is [disabel]. See note in documentation");
+        /* if we disable interrupt we must set low power period to 1
+         *  otherwise parity check will fail and no data can read out
+         */
+        if (!config->int_enable)
+        {
+            w_buffer[REG_MOD3] = (1 << 6) | w_buffer[REG_MOD3];
+        }
+        readoutPeriod = READOUT_HIGH_PERIOD;
+>>>>>>> Stashed changes
         ESP_LOGI(MODUL_TLV, "Powermode is set to [master controller mode]!");
         break;
     default:
@@ -532,6 +619,7 @@ esp_err_t TLV493D::writeConfig(tlv493d_io_conf_t *config)
         ESP_LOGE(MODUL_TLV, "Writing settings to TLV493D failed. Parity check failed.");
         return ESP_FAIL;
     }
+    ESP_LOGI(MODUL_TLV, "Parity check success!");
 
     return err;
 }
@@ -605,4 +693,10 @@ int16_t TLV493D::calculateTemperatur(uint8_t msb, uint8_t lsb)
 
     value = value >> 4; // shift left so that value is a signed 12 bit integer
     return value;
+}
+
+void TLV493D::periodic_timer_callback(void *arg)
+{
+    TLV493D *ptrTLV493D = static_cast<TLV493D *>(arg);
+    ptrTLV493D->update();
 }

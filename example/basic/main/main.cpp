@@ -21,12 +21,8 @@ extern "C" void app_main(void) {
     for(;;)
     {
         
-        if(counter >= 5)
-        {
-            esp_restart();
-        }
-        
-        vTaskDelay(100);
+
+        vTaskDelay(50/portTICK_PERIOD_MS);
         ESP_LOGI(MODUL_BASIC, "X: %f, Y: %f, Y: %f, temp: %f", mag_conf.dataX, mag_conf.dataY, mag_conf.dataY, mag_conf.temperature);
         counter++;
     }

@@ -25,9 +25,7 @@ extern "C"
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
 #include "driver/gpio.h"
-#include "rom/gpio.h"
-#include "soc/gpio_sig_map.h"
-#include "soc/gpio_sig_map.h"
+#include "esp_timer.h"
 #include "esp_log.h"
 #include "esp_idf_version.h"
 
@@ -274,6 +272,7 @@ extern "C"
         esp_err_t readRegistry(uint8_t *data);
         int16_t calculateValue(uint8_t msb, uint8_t lsb, bool use_first_four);
         int16_t calculateTemperatur(uint8_t msb, uint8_t lsb);
+        static void periodic_timer_callback(void* arg);
 
         /*************
          * Variables *
@@ -286,9 +285,10 @@ extern "C"
         tlv493d_conf_t *_config;
         gpio_config_t io_conf;
         i2c_config_t i2c_conf;
+        esp_timer_handle_t tlv493d_timer;
         uint8_t r_buffer[10] = {0};
         uint8_t w_buffer[10] = {0};
-        uint8_t readoutPeriod;
+        uint64_t readoutPeriod;
     };
 
 #ifdef __cplusplus
