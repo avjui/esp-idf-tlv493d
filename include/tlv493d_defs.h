@@ -47,11 +47,12 @@ extern "C"
 #define ACK     1
 #define N_ACK    0
 
-#define READOUT_HIGH_PERIOD     1000000 / 3300      /* 3.3 khz */
+#define READOUT_HIGH_PERIOD     1000000 / 1000     /* 1khz TODO: Seems to hang if higher. Make more investigation to get higher readout frequenz. */
 #define READOUT_NORMAL_PERIOD   1000000 / 100       /* 100 hz */
 #define READOUT_LOW_PERIOD      1000000 / 10        /* 10 hz*/
 
 #define READOUT_MAX_TIMES       10 / portTICK_PERIOD_MS
+#define CHECK_READOUT_COUNT     false
 
 /******************
  *  Read register *

@@ -369,25 +369,36 @@ esp_err_t TLV493D::update()
     /* if count or power down flag not ready we will retry. Max retries defines 'READOUT_MAX_TIMES' */
     for (int r = 0; r < READOUT_MAX_TIMES; r++)
     {
-        /* first we check the count if it the same as before tlv493d has not
-         * update values so we can skeep store it.
-         */
-        if (((this->r_buffer[BANK_TEMP1] & 0x0C) >> 2) == _count)
+        /* first we read out registry */
+        err = this->readRegistry(this->r_buffer);
+        if (err != ESP_OK)
         {
-            ESP_LOGD(MODUL_THREAD_TLV, "No new data. Skip storing");
-            /* wait 1 ms and try again */
-            vTaskDelay(1 / portTICK_PERIOD_MS);
-            err = ESP_ERR_INVALID_RESPONSE;
-            continue;
+            ESP_LOGE(MODUL_THREAD_TLV, "Failed to read data with err: %s", esp_err_to_name(err));
+            return err;
         }
-        /* second we check power down flag. According to datasheet it must
+        /* optional we check the count if it the same as before tlv493d has not
+         * update values so we can skeep store it.
+         * TODO: It seems to hang after a while so i disable this for the
+         *       moment. Future investigation on this behavior.
+         */
+        if (CHECK_READOUT_COUNT)
+        {
+            if (((this->r_buffer[BANK_TEMP1] & 0x0C) >> 2) == _count)
+            {
+                ESP_LOGD(MODUL_THREAD_TLV, "No new data. Skip storing");
+                ets_delay_us(20);
+                err = ESP_ERR_INVALID_RESPONSE;
+                continue;
+            }
+        }
+        /* Let us check power down flag. According to datasheet it must
          * be 1 if it reading is complete, otherwise the tlv493d is running.
          */
-        else if ((this->r_buffer[BANK_TEMP1] & 0x08) == 0)
+        if ((this->r_buffer[BANK_TEMP1] & 0x08) == 0)
         {
             ESP_LOGD(MODUL_THREAD_TLV, "TLV493D is reading out. Skip storing");
-            /* wait 1 ms and try again */
-            vTaskDelay(1 / portTICK_PERIOD_MS);
+            /* read out again as fast as possible */
+            ets_delay_us(20);
             err = ESP_ERR_NOT_FINISHED;
             continue;
         }
@@ -470,10 +481,13 @@ esp_err_t TLV493D::reset()
     i2c_master_write(cmd, &data, 1, ACK);
     i2c_master_stop(cmd);
     err = i2c_master_cmd_begin(_i2c_master_port, cmd, 1000 / portTICK_PERIOD_MS);
+    if (err != ESP_OK)
+    {
+        ESP_LOGE(MODUL_TLV, "Sending reset address failed with error: %s", esp_err_to_name(err));
+    }
     i2c_cmd_link_delete(cmd);
-    */
-    //vTaskDelay(1000 / portTICK_PERIOD_MS);
-    this->readRegistry(r_buffer);
+
+    err = this->readRegistry(r_buffer);
     return err;
 }
 

@@ -28,6 +28,7 @@ extern "C"
 #include "esp_timer.h"
 #include "esp_log.h"
 #include "esp_idf_version.h"
+#include "rom/ets_sys.h"
 
 #if ESP_IDF_VERSION > ESP_IDF_VERSION_VAL(5, 2, 9)
     #include "driver/i2c_master.h"
