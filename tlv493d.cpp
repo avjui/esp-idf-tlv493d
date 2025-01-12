@@ -435,6 +435,13 @@ esp_err_t TLV493D::update()
             return err;
         }
     }
+    /* if interrupt disabled we start the timer again */
+
+    if (!_config->tlv493d_conf.int_enable && _config->tlv493d_conf.mode == MASTERCONTROLLERMODE)
+    {
+        esp_timer_start_once(tlv493d_timer, (uint64_t)readoutPeriod * 3);
+        ESP_LOGD(MODUL_THREAD_TLV, "Start timer again!");
+    }
     return err;
 }
 
