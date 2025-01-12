@@ -466,7 +466,7 @@ void IRAM_ATTR TLV493D::interruptHandler(void *pvParameter)
 esp_err_t TLV493D::reset()
 {
 
-    /* we need no ack so we make the call by hand */
+    /* we get no ack after write the reset address so we make the call by hand */
 
     uint8_t data = RESET_VALUE;
 
@@ -478,7 +478,7 @@ esp_err_t TLV493D::reset()
     cmd = i2c_cmd_link_create();
     i2c_master_start(cmd);
     i2c_master_write_byte(cmd, TLV493D_RESET_ADDRESS | I2C_MASTER_WRITE, ACK);
-    i2c_master_write(cmd, &data, 1, ACK);
+    i2c_master_write(cmd, &data, 1, N_ACK);
     i2c_master_stop(cmd);
     err = i2c_master_cmd_begin(_i2c_master_port, cmd, 1000 / portTICK_PERIOD_MS);
     if (err != ESP_OK)
