@@ -532,8 +532,22 @@ esp_err_t TLV493D::writeConfig(tlv493d_io_conf_t *config)
         /* set fast mode bit in register 1
          * we also will set low power period to 12ms
          */
+        w_buffer[REG_MOD1] = w_buffer[REG_MOD1] & 0xFE;
         w_buffer[REG_MOD1] = (1 << 1) | w_buffer[REG_MOD1];
-        w_buffer[REG_MOD3] = (1 << 6) | w_buffer[REG_MOD3];
+        /* set low power period to 100ms*/
+        w_buffer[REG_MOD3] = w_buffer[REG_MOD3] & 0xBF;
+        
+        /* in fastmode we have to disable temp readout and enable interrupt */
+        config->use_temp = false;
+        w_buffer[REG_MOD3] = ((!config->use_temp) << 7) | w_buffer[REG_MOD3];
+        ESP_LOGI(MODUL_TLV, "Readout temperature is [%s]", config->use_temp ? "enabled" : "disabled");
+
+        /* we also have to enable interrupt in fastmode*/
+        config->int_enable = true;
+        w_buffer[REG_MOD1] = ((config->int_enable) << 2) | w_buffer[REG_MOD1];
+        ESP_LOGI(MODUL_TLV, "Readout temperature is [%s]", config->use_temp ? "enabled" : "disabled");
+
+        /* set readout time*/
         readoutPeriod = READOUT_HIGH_PERIOD;
         ESP_LOGI(MODUL_TLV, "Powermode is set to [fastmode]!");
         break;
@@ -556,19 +570,15 @@ esp_err_t TLV493D::writeConfig(tlv493d_io_conf_t *config)
         /* set master controller mode. fastmode = 1, lp_mode = 1, int_out = 0/1 */
         w_buffer[REG_MOD1] = (1 << 1) | w_buffer[REG_MOD1];
         w_buffer[REG_MOD1] = 1 | w_buffer[REG_MOD1];
+        
         /* TODO: Implement this. Find a way to connect interrupt to sda pin
          *       Maybe this can be done with the gpio matrix. At the moment
          *       we disable interrupt for this mode
          */
-        /* we disable interrupt in this mode until we found a solution for connecting interrupt */
-<<<<<<< Updated upstream
-        _config->tlv493d_conf.int_enable = true;
-        w_buffer[REG_MOD1] = ((_config->tlv493d_conf.int_enable) << 2) | w_buffer[REG_MOD1];
-        ESP_LOGI(MODUL_TLV, "Interrupt of tlv493d is [%s]", _config->tlv493d_conf.int_enable ? "enabled" : "disabled");
-=======
-        config->int_enable = false;
+        config->int_enable = true;
         w_buffer[REG_MOD1] = ((config->int_enable) << 2) | w_buffer[REG_MOD1];
-        ESP_LOGI(MODUL_TLV, "Interrupt of tlv493d is [disable]. See note in documentation");
+        ESP_LOGI(MODUL_TLV, "Interrupt of tlv493d is [enabled]!");
+        
         /* if we disable interrupt we must set low power period to 1
          *  otherwise parity check will fail and no data can read out
          */
@@ -576,7 +586,7 @@ esp_err_t TLV493D::writeConfig(tlv493d_io_conf_t *config)
         {
             w_buffer[REG_MOD3] = (1 << 6) | w_buffer[REG_MOD3];
         }
-        readoutPeriod = READOUT_HIGH_PERIOD;
+        readoutPeriod = READOUT_NORMAL_PERIOD;
         ESP_LOGI(MODUL_TLV, "Powermode is set to [master controller mode]!");
         break;
     default:
