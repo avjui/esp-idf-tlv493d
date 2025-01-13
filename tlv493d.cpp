@@ -394,7 +394,7 @@ esp_err_t TLV493D::update()
         /* Let us check power down flag. According to datasheet it must
          * be 1 if it reading is complete, otherwise the tlv493d is running.
          */
-        if ((this->r_buffer[BANK_TEMP1] & 0x08) == 0)
+        if ((this->r_buffer[BANK_Z2] & 0x08) == 0)
         {
             ESP_LOGD(MODUL_THREAD_TLV, "TLV493D is reading out. Skip storing");
             /* read out again as fast as possible */
