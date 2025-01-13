@@ -590,10 +590,10 @@ esp_err_t TLV493D::writeConfig(tlv493d_io_conf_t *config)
     err = this->writeRegistry(w_buffer);
 
     /* to check if settings where accepted we will read back the parity check bit */
-    ESP_LOGI(MODUL_TLV, "Read register");
+    ESP_LOGD(MODUL_TLV, "Read register");
     this->readRegistry(r_buffer);
-    ESP_LOGI(MODUL_TLV, "BANK_X1\tBANK_Y1\t\tBANK_Z1\t\tBANK_T1\t\tBANK_XY2\tBANK_Z2\t\tBANK_T2\t\tBANK_RES0\tBANK_RES1\tBANK_RES2\t\n");
-    ESP_LOGI(MODUL_TLV, "0x%02x\t\t0x%02x\t\t0x%02x\t\t0x%02x\t\t0x%02x\t\t0x%02x\t\t0x%02x\t\t0x%02x\t\t0x%02x\t\t0x%02x\t\t", r_buffer[BANK_X1], r_buffer[BANK_Y1], r_buffer[BANK_Z1], r_buffer[BANK_TEMP1], r_buffer[BANK_XY2], r_buffer[BANK_Z2], r_buffer[BANK_TEMP2], r_buffer[BANK_RES1], r_buffer[BANK_RES2], r_buffer[BANK_RES3]);
+    ESP_LOGD(MODUL_TLV, "BANK_X1\tBANK_Y1\t\tBANK_Z1\t\tBANK_T1\t\tBANK_XY2\tBANK_Z2\t\tBANK_T2\t\tBANK_RES0\tBANK_RES1\tBANK_RES2\t\n");
+    ESP_LOGD(MODUL_TLV, "0x%02x\t\t0x%02x\t\t0x%02x\t\t0x%02x\t\t0x%02x\t\t0x%02x\t\t0x%02x\t\t0x%02x\t\t0x%02x\t\t0x%02x\t\t", r_buffer[BANK_X1], r_buffer[BANK_Y1], r_buffer[BANK_Z1], r_buffer[BANK_TEMP1], r_buffer[BANK_XY2], r_buffer[BANK_Z2], r_buffer[BANK_TEMP2], r_buffer[BANK_RES1], r_buffer[BANK_RES2], r_buffer[BANK_RES3]);
 
     if ((r_buffer[BANK_Z2] & 0x20) == 0)
     {
