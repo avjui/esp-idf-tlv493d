@@ -228,19 +228,22 @@ esp_err_t TLV493D::init_bus(tlv493d_io_conf_t *config)
 {
     ESP_LOGI(MODUL_TLV, "Init I2C bus!");
     ESP_LOGI(MODUL_TLV, "Config -  SDA Pin Number: %d | SLC Pin Number: %d | I2C Address: 0x%02x", config->pin_sda, config->pin_scl, config->tlv_address);
-#if ESP_IDF_VERSION > ESP_IDF_VERSION_VAL(5, 2, 9)
+#if ESP_IDF_VERSION > ESP_IDF_VERSION_VAL(5, 2, 0)
 
+#pragma GCC diagnostic ignored "-Wmissing-field-initializers"
     i2c_master_bus_config_t bus_config = {
         .i2c_port = I2C_MASTER_NUM,
-        .sda_io_num = config->pin_sda,
-        .scl_io_num = config->pin_scl,
+        .sda_io_num = (gpio_num_t)config->pin_sda,
+        .scl_io_num = (gpio_num_t)config->pin_scl,
         .clk_source = I2C_CLK_SRC_DEFAULT,
         .glitch_ignore_cnt = 7,
         .flags = {
             .enable_internal_pullup = true,
         },
     };
-    err = i2c_new_master_bus(&bus_config, bus_handle);
+#pragma GCC diagnostic pop
+
+    err = i2c_new_master_bus(&bus_config, &bus_handle);
 
     if (err != ESP_OK)
     {
@@ -253,7 +256,7 @@ esp_err_t TLV493D::init_bus(tlv493d_io_conf_t *config)
         .device_address = CONFIG_TLV493D_I2C_ADDRESS,
         .scl_speed_hz = I2C_MASTER_FREQ_HZ,
     };
-    err = i2c_master_bus_add_device(*bus_handle, &dev_config, dev_handle);
+    err = i2c_master_bus_add_device(bus_handle, &dev_config, &dev_handle);
 #else
 
 #pragma GCC diagnostic ignored "-Wmissing-field-initializers"
@@ -470,7 +473,21 @@ esp_err_t TLV493D::reset()
 
     uint8_t data = RESET_VALUE;
 
-    err = i2c_master_write_to_device(_i2c_master_port, CONFIG_TLV493D_I2C_ADDRESS, &data, 1, I2C_MASTER_TIMEOUT_MS / portTICK_PERIOD_MS);
+#if ESP_IDF_VERSION > ESP_IDF_VERSION_VAL(5, 2, 0)
+
+    /* reset */
+    i2c_device_config_t reset_dev_config = {
+        .dev_addr_length = I2C_ADDR_BIT_LEN_7,
+        .device_address = TLV493D_RESET_ADDRESS,
+        .scl_speed_hz = I2C_MASTER_FREQ_HZ,
+    };
+    err = i2c_master_bus_add_device(bus_handle, &reset_dev_config, &reset_dev_handle);
+    if (err == ESP_OK)
+    {
+        err = i2c_master_transmit(reset_dev_handle, &data, 1, 1000 / portTICK_PERIOD_MS);
+    }
+
+#else
 
     /* reset */
     /*
@@ -486,6 +503,8 @@ esp_err_t TLV493D::reset()
         ESP_LOGE(MODUL_TLV, "Sending reset address failed with error: %s", esp_err_to_name(err));
     }
     i2c_cmd_link_delete(cmd);
+
+#endif
 
     err = this->readRegistry(r_buffer);
     return err;
@@ -633,7 +652,12 @@ esp_err_t TLV493D::writeRegistry(uint8_t *data)
 
     // parity is in the LSB of y
     data[REG_MOD1] = ((y & 0x01) << 7) | data[REG_MOD1];
+
+#if ESP_IDF_VERSION > ESP_IDF_VERSION_VAL(5, 2, 0)
+    return i2c_master_transmit(dev_handle, data, 4, I2C_MASTER_TIMEOUT_MS / portTICK_PERIOD_MS);
+#else
     return i2c_master_write_to_device(_i2c_master_port, CONFIG_TLV493D_I2C_ADDRESS, data, 4, I2C_MASTER_TIMEOUT_MS / portTICK_PERIOD_MS);
+#endif
 }
 
 esp_err_t TLV493D::readRegistry(uint8_t *data)
@@ -641,7 +665,11 @@ esp_err_t TLV493D::readRegistry(uint8_t *data)
 
     ESP_LOGD(MODUL_THREAD_TLV, "Try to read data from sensor");
     // err = i2c_master_read_from_device(_i2c_master_port, CONFIG_TLV493D_I2C_ADDRESS, this->_config, 10, I2C_MASTER_TIMEOUT_MS / portTICK_PERIOD_MS);
+#if ESP_IDF_VERSION > ESP_IDF_VERSION_VAL(5, 2, 0)
+    err = i2c_master_receive(dev_handle, r_buffer, 10, I2C_MASTER_TIMEOUT_MS / portTICK_PERIOD_MS);
+#else
     err = i2c_master_read_from_device(_i2c_master_port, CONFIG_TLV493D_I2C_ADDRESS, r_buffer, 10, I2C_MASTER_TIMEOUT_MS / portTICK_PERIOD_MS);
+#endif
     if (err != ESP_OK)
     {
         ESP_LOGE(MODUL_TLV, "Error reading data from slave. Error: %s", esp_err_to_name(err));

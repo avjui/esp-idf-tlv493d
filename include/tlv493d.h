@@ -30,34 +30,33 @@ extern "C"
 #include "esp_idf_version.h"
 #include "rom/ets_sys.h"
 
-#if ESP_IDF_VERSION > ESP_IDF_VERSION_VAL(5, 2, 9)
-    #include "driver/i2c_master.h"
+#if ESP_IDF_VERSION > ESP_IDF_VERSION_VAL(5, 2, 0)
+#include "driver/i2c_master.h"
 #else
-    #include "driver/i2c.h"
+#include "driver/i2c.h"
 #endif
 
 #include "tlv493d_defs.h"
 
-
 #define MODUL_TLV "TLV493D"
 #define MODUL_THREAD_TLV "TLV493D-THREAD"
-#define DEFAULT_TLV493D_CONFIG()                        \
-    {                                                   \
-        .dataX = 0.0,                                   \
-        .dataY = 0.0,                                   \
-        .dataZ = 0.0,                                   \
-        .temperature = 0.0,                             \
-        .amount = 0.0,                                  \
-        .azimuth = 0.0,                                 \
-        .polar = 0.0,                                   \
-        .tlv493d_conf = {                               \
-            .tlv_address = CONFIG_TLV493D_I2C_ADDRESS,  \
-            .pin_sda = CONFIG_TLV493D_PIN_SDA,          \
-            .pin_scl = CONFIG_TLV493D_PIN_SCL,          \
-            .mode = MASTERCONTROLLERMODE,               \
-            .use_temp = CONFIG_TLV493D_TEMP_ENABLE,     \
-            .int_enable = CONFIG_TLV493D_INT_ENABLE,    \
-        },                                              \
+#define DEFAULT_TLV493D_CONFIG()                       \
+    {                                                  \
+        .dataX = 0.0,                                  \
+        .dataY = 0.0,                                  \
+        .dataZ = 0.0,                                  \
+        .temperature = 0.0,                            \
+        .amount = 0.0,                                 \
+        .azimuth = 0.0,                                \
+        .polar = 0.0,                                  \
+        .tlv493d_conf = {                              \
+            .tlv_address = CONFIG_TLV493D_I2C_ADDRESS, \
+            .pin_sda = CONFIG_TLV493D_PIN_SDA,         \
+            .pin_scl = CONFIG_TLV493D_PIN_SCL,         \
+            .mode = MASTERCONTROLLERMODE,                           \
+            .use_temp = CONFIG_TLV493D_TEMP_ENABLE,    \
+            .int_enable = CONFIG_TLV493D_INT_ENABLE,   \
+        },                                             \
     }
 
     /**
@@ -67,14 +66,14 @@ extern "C"
      * @note MASTERCONTROLLERMODE and MASTERCONTROLLERMODE_ULP are not supported for the moment
      *
      * @var tlv493d_mode_t::POWERDOWNMODE
-     * Used for disabling tlv493D. It will use 3nA in this mode(see datasheet). 
+     * Used for disabling tlv493D. It will use 3nA in this mode(see datasheet).
      *
      * @var tlv493d_mode_t::FASTMODE
      * In this mode the value is only 8 bit accuracy but the highest read speed.
      *
      * @var tlv493d_mode_t::LOWPOWERMODE
      * Read out data ever 12ms
-     * 
+     *
      * @var tlv493d_mode_t::ULTRALOWPOWERMODE
      * Read out data ever 100ms
      *
@@ -83,7 +82,7 @@ extern "C"
      * This mode can be used interrupt driven or polled.a64l
      * @note At the moment only polled mode can be enabled until we find a solution
      *       to connect sda pin to interrupt routine. Maybe this can be done by 'gpio matrix'.
-     * 
+     *
      * @var tlv493d_mode_t:: MASTERCONTROLLERMODE_ULP
      * @warning Is not supported yet!
      */
@@ -103,19 +102,19 @@ extern "C"
      *
      * @var tlv493d_io_conf_t::tlv_address
      * assign I2C address (default 0x5E)
-     * 
+     *
      * @var tlv493d_io_conf_t::pin_sda
      * assign i2c sda pin
-     * 
+     *
      * @var tlv493d_io_conf_t::pin_scl
      * assign i2c scl pin
-     * 
+     *
      * @var tlv493d_io_conf_t::mode
      * set the used powermode
-     * 
+     *
      * @var tlv493d_io_conf_t::use_temp
      * enable/disable temperature read out
-     * 
+     *
      * @var tlv493d_io_conf_t::int_enable
      * enable/disable interrupt pin output
      *
@@ -136,25 +135,25 @@ extern "C"
      *
      * @var tlv493d_conf_t::dataX
      * data for x axis
-     * 
+     *
      * @var tlv493d_conf_t::dataY
      * data for y axis
-     * 
+     *
      * @var tlv493d_conf_t::dataZ
      * data for z axis
-     * 
+     *
      * @var tlv493d_conf_t::temperature
      * data for temperature
-     * 
+     *
      * @var tlv493d_conf_t::amount
      * amount data
-     * 
+     *
      * @var tlv493d_conf_t::azimuth
      * azimuth data
-     * 
+     *
      * @var tlv493d_conf_t::polar
      * polar data
-     * 
+     *
      * @var tlv493d_conf_t::tlv493d_conf
      * hold base config (see 'tlv493d_io_conf_t')
      */
@@ -178,7 +177,7 @@ extern "C"
          * @brief  Init function with custom config
          *
          * @param config config for tlv493d
-         * 
+         *
          * @return ESP_OK when success.
          */
         esp_err_t init(tlv493d_conf_t *config);
@@ -194,7 +193,7 @@ extern "C"
          * @brief Function to stop the background task
          *
          * @return ESP_OK when success.
-       */
+         */
         esp_err_t stop(void);
 
         /**
@@ -204,10 +203,10 @@ extern "C"
          *       It will also stop the background thread and inital the tlc493d new.
          *
          * @param enable  true for enable
-         * 
+         *
          * @return ESP_OK when success.
-         * 
-       */
+         *
+         */
         esp_err_t setGetInterrupt(bool enable);
 
         /**
@@ -273,19 +272,21 @@ extern "C"
         esp_err_t readRegistry(uint8_t *data);
         int16_t calculateValue(uint8_t msb, uint8_t lsb, bool use_first_four);
         int16_t calculateTemperatur(uint8_t msb, uint8_t lsb);
-        static void periodic_timer_callback(void* arg);
+        static void periodic_timer_callback(void *arg);
 
         /*************
          * Variables *
          *********** */
-#if ESP_IDF_VERSION > ESP_IDF_VERSION_VAL(5, 2, 9)
+#if ESP_IDF_VERSION > ESP_IDF_VERSION_VAL(5, 2, 0)
         i2c_master_bus_handle_t bus_handle;
+        i2c_master_dev_handle_t reset_dev_handle;
         i2c_master_dev_handle_t dev_handle;
+#else
+        i2c_config_t i2c_conf;
 #endif
         esp_err_t err;
         tlv493d_conf_t *_config;
         gpio_config_t io_conf;
-        i2c_config_t i2c_conf;
         esp_timer_handle_t tlv493d_timer;
         uint8_t r_buffer[10] = {0};
         uint8_t w_buffer[10] = {0};
