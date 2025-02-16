@@ -66,7 +66,7 @@ check_function_exists (idf_component_register BUILD-IDF)
         add_custom_target( doc
             COMMAND ${DOXYGEN_EXECUTABLE} ${DOXYGEN_OUT}
             COMMAND  ${Python_EXECUTABLE} -m sphinx -b html -c ${SPHINX_CONF_FILE}
-            ${SPHINX_SOURCE} ${SPHINX_BUILD} -D version=0.1
+            ${SPHINX_SOURCE} ${SPHINX_BUILD} -D version=0.1.0
             WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
             COMMENT "Generating API documentation with Doxygen"
             VERBATIM )

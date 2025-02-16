@@ -1,0 +1,7 @@
+name: esp-idf-tlv493d
+version: "0.1.0"
+description: Library for tlv493d triple axes magnetometer sensor.
+url: https://github.com/avjui/esp-idf-tlv493d
+dependencies:
+  idf:
+    version: ">=4.4"

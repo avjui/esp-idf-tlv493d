@@ -47,9 +47,13 @@ extern "C"
 #define ACK     1
 #define N_ACK    0
 
-#define READOUT_HIGH_PERIOD     12
-#define READOUT_LOW_PERIOD      100
-#define READOUT_MAX_TIMES       10
+#define READOUT_HIGH_PERIOD     1000000 / 1000     /* 1khz TODO: Seems to hang if higher. Make more investigation to get higher readout frequency. */
+#define READOUT_NORMAL_PERIOD   1000000 / 100       /* 100 hz */
+#define READOUT_LOW_PERIOD      1000000 / 10        /* 10 hz*/
+
+#define READOUT_MAX_TIMES       5
+
+#define CHECK_READOUT           false
 
 /******************
  *  Read register *
@@ -97,7 +101,7 @@ extern "C"
 #define BANK_Z2 0x05
 
 /** 
- * temperatur significant bits 11...4 
+ * temperature significant bits 11...4 
  */
 #define BANK_TEMP2 0x06
 
@@ -137,7 +141,7 @@ extern "C"
  *  [6:5]   i2c address bits: Bits can be set to “00”, “01”, “10” or “11” to define the slave address
  *          in bus configuration. Caution! must be filled from BANK_RES1 \n 
  *  [4:3]   must be filled from BANK_RES1 \n 
- *  [2]     interuped enabled \n 
+ *  [2]     interupted enabled \n 
  *  [1]     fast mode \n 
  *  [0]     low power mode \n 
  */
