@@ -22,7 +22,7 @@ project = 'ESP-IDF-TLV493D'
 copyright = '2025, Juen Rene'
 author = 'Juen Rene'
 
-version = "0.1.0"
+version = "0.2.0"
 
 root_doc = 'index'
 # -- General configuration ---------------------------------------------------
