@@ -53,7 +53,7 @@ extern "C"
             .tlv_address = CONFIG_TLV493D_I2C_ADDRESS, \
             .pin_sda = CONFIG_TLV493D_PIN_SDA,         \
             .pin_scl = CONFIG_TLV493D_PIN_SCL,         \
-            .mode = MASTERCONTROLLERMODE,                           \
+            .mode = ULTRALOWPOWERMODE,                          \
             .use_temp = CONFIG_TLV493D_TEMP_ENABLE,    \
             .int_enable = CONFIG_TLV493D_INT_ENABLE,   \
         },                                             \
@@ -216,60 +216,62 @@ extern "C"
          *       It will also stop the background thread and inital the tlc493d new.
          *
          * @param enable  true for enable
-         * 
+         *
          * @return ESP_OK when success.
-         * 
-       */
+         *
+         */
         esp_err_t setGetTemperature(bool enable);
 
         /**
          * @brief Function to set the tlv493d to powerdown mode
-         * 
+         *
          * @param deep sleep for future use
          * @return ESP_OK when success.
          */
         esp_err_t sleep(bool deepsleep);
 
         /**
-         * @brief Set the mode of tlv943d. Available modes can be found in 'tlv943d_mode_t' enum. 
+         * @brief Set the mode of tlv943d. Available modes can be found in 'tlv943d_mode_t' enum.
          * @note TODO: Save current mode in rtc memory to keep it for deep sleep.
-         * 
-         * @param mode 
+         *
+         * @param mode
          * @return ESP_OK when success.
          */
         esp_err_t setMode(tlv493d_mode_t mode);
 
         /**
          * @brief Function to read out values from tlv493d
-         * 
+         *
          * @note This is a blocking function. It try to read out data. If the tlv493d is not ready or new
-         *       new data will present, it will imedilaty retry to read out. If it will not get new data
+         *       new data will present, it will immediately retry to read out. If it will not get new data
          *       after 'READOUT_MAX_TIMES' it will return as ESP_FAIL.
-         * 
+         *
          * @return ESP_OK when success.
          */
         esp_err_t update();
 
         /**
-         * @brief Function to wake up tlv493d after sleep. 
+         * @brief Function to wake up tlv493d after sleep.
          * @note The tlv493d will be new initialed.
-         * 
-         * @return ESP_OK when success. 
+         *
+         * @return ESP_OK when success.
          */
         esp_err_t wakeup(void);
+
+        esp_err_t task_err;
 
     private:
         /*************
          * Functions *
          *************/
-        esp_err_t init_bus(tlv493d_io_conf_t *config);
-        esp_err_t init_tlv(tlv493d_io_conf_t *config);
+        esp_err_t init_bus();
+        esp_err_t init_tlv();
         static void backgroundTask(void *pvParameter);
         static void IRAM_ATTR interruptHandler(void *pvParameter);
         esp_err_t reset();
-        esp_err_t writeConfig(tlv493d_io_conf_t *config);
+        esp_err_t writeConfig();
         esp_err_t writeRegistry(uint8_t *data);
-        esp_err_t readRegistry(uint8_t *data);
+        esp_err_t readRegistry();
         int16_t calculateValue(uint8_t msb, uint8_t lsb, bool use_first_four);
         int16_t calculateTemperatur(uint8_t msb, uint8_t lsb);
         static void periodic_timer_callback(void *arg);
@@ -286,11 +288,13 @@ extern "C"
 #endif
         esp_err_t err;
         tlv493d_conf_t *_config;
-        gpio_config_t io_conf;
+        tlv493d_io_conf_t *_io_conf;
         esp_timer_handle_t tlv493d_timer;
         uint8_t r_buffer[10] = {0};
         uint8_t w_buffer[10] = {0};
         uint64_t readoutPeriod;
+        uint8_t readout_count;
+        uint8_t failed_count;
     };
 
 #ifdef __cplusplus
